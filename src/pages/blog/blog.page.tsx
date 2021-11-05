@@ -3,123 +3,173 @@ import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 
 import {
-	BlogCardUserInfo,
 	BlogContentWrapper,
 	BlogListWrapper,
-	BlogMiniDescription,
-	BlogTitle,
 	BlogWrapper,
 	EmptyBlog,
 	TextFieldWrapper,
+	CreateNewBlogWrapper,
+	CreateNewBlogButton,
+	BlogListCardsWrapper,
+	SearchWrapper,
 } from "./blog.styles";
-import Avatar from "@mui/material/Avatar";
 import { useTheme } from "@mui/system";
-import styled from "styled-components";
-import { useState } from "react";
+import { Fragment, useEffect, useState } from "react";
+import Button from "../../components/form-input-fields/button.component";
+import { makeStyles } from "@mui/styles";
+import { useHistory } from "react-router-dom";
+import { Routes } from "../../constants/route-paths";
+import BlogCard from "../../components/blog-card/blog-card.component";
+import {
+	useAppDispatch,
+	useAppSelector,
+} from "../../features/redux/redux-toolkit-hooks/redux-toolkit-hooks";
+import {
+	fetchBlogs,
+	resetFetchBlogsStatus,
+} from "../../features/redux/slice/blog.slice";
+import Spinner from "../../components/spinner/spinner.component";
+import { isAPIFetchedSuccefully } from "../../helpers/helper-API-status";
+import { fetchUsers } from "../../features/redux/slice/app-users.slice";
+import BlogContent from "../../components/blog-details/blog-details.component";
 
-const blogPost = [
-	{
-		id: 1,
-		userName: "Phani",
-		title: "Trade in Coal India",
-		publishedOn: "24-Sep-2021",
-		description:
-			"Aute mollit laboris commodo veniam in eu voluptate velit aute esse minim ullamco consectetur.",
+const useStyles: any = makeStyles({
+	button: {
+		width: "100%",
+		height: "36px",
+		marginBlock: "10px",
+		borderRadius: "20px",
+		textTransform: "capitalize",
 	},
-	{
-		id: 2,
-		userName: "Ravi",
-		title: "Trade in Coal India",
-		publishedOn: "14-Sep-2021",
-		description:
-			"Aute mollit laboris commodo veniam in eu voluptate velit aute esse minim ullamco consectetur.",
-	},
-	{
-		id: 3,
-		userName: "user",
-		title: "Trade in Coal India",
-		publishedOn: "22-Sep-2021",
-		description:
-			"Aute mollit laboris commodo veniam in eu voluptate velit aute esse minim ullamco consectetur.Aliquip mollit culpa ex aliquip dolor ut laborum in eu duis consequat.",
-	},
-	{
-		id: 4,
-		userName: "balu",
-		title: "Trade in TCS",
-		publishedOn: "24-Sep-2021",
-		description:
-			"Aute mollit laboris commodo veniam in eu voluptate velit aute esse minim ullamco consectetur.",
-	},
-];
-
+});
 
 const Blog = () => {
+	const history = useHistory();
 	const theme = useTheme();
-	const [cardSelected, setCardSelected] = useState<any | null>(null);
-	const BlogCardWrapper = styled.div`
-		padding: 10px;
-		background: ${theme.palette.mode === "dark" ? "#000a1240" : "#00000020"};
-		border-radius: 20px;
-		margin-block: 15px;
-		cursor: pointer;
-		&:hover {
-			background: ${theme.palette.primary.main};
-		}
-	`;
+	const classes = useStyles();
+	const [blogPosts, setBlogPosts] = useState<any[] | null>(null);
+	const [cardSelectedId, setCardSelectedId] = useState<any | null>(null);
+	const [selectedBlogUserName, setSelectedBlogUserName] = useState<any | null>(
+		null
+	);
+	const fetchBlogsStatus = useAppSelector(
+		(state) => state.blog.fetchBlogs.status
+	);
+	const fetchUsersInfoStatus = useAppSelector(
+		(state) => state.usersInfo.status
+	);
+	const blogs = useAppSelector((state) => state.blog.fetchBlogs.blogs);
+	const users = useAppSelector((state) => state.usersInfo.users);
+	const isSpinnerRequired =
+		isAPIFetchedSuccefully(fetchBlogsStatus) ||
+		isAPIFetchedSuccefully(fetchUsersInfoStatus);
+	const dispatch = useAppDispatch();
 
-	const BlogCardWrapperHighlighted = styled.div`
-		padding: 10px;
-		background: ${theme.palette.mode === "dark" ? "#000a1240" : "#00000020"};
-		border-radius: 20px;
-		margin-block: 15px;
-		cursor: pointer;
-		background: ${theme.palette.primary.main};
-	`;
+	useEffect(() => {
+		dispatch(fetchBlogs());
+		dispatch(fetchUsers());
+		return () => {
+			dispatch(resetFetchBlogsStatus());
+		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
+	useEffect(() => {
+		fetchUsersInfoStatus === "success" &&
+			fetchBlogsStatus === "success" &&
+			getBlogs();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [fetchBlogsStatus, fetchUsersInfoStatus]);
+
+	const getBlogs = () => {
+		const BlogPosts: any[] = [];
+		blogs.forEach((blog) => {
+			users.forEach((user) => {
+				if (blog.uid === user.uid) {
+					BlogPosts.push({ ...blog, userName: user.name });
+				}
+			});
+		});
+		setBlogPosts(BlogPosts);
+	};
 
 	const handleBlogClick = (item: any) => {
-		setCardSelected(item);
-	}; 
+		setSelectedBlogUserName(item.userName);
+		setCardSelectedId(item.id);
+	};
+
+	const goToPostYourBlog = () => history.push(Routes.ADD_BLOG);
 
 	return (
-		<BlogWrapper>
-			<BlogListWrapper>
-				<TextFieldWrapper
-					label="search by title"
-					fullWidth
-					InputProps={{
-						endAdornment: (
-							<InputAdornment position="start">
-								<IconButton>
-									<SearchIcon />
-								</IconButton>
-							</InputAdornment>
-						),
-					}}
-				/>
-				<div>
-					{blogPost.map((item) => {
-						const BlogCard = (item.id ===  cardSelected?.id) ? BlogCardWrapperHighlighted : BlogCardWrapper;
-						return (
-							<BlogCard onClick={(e) => handleBlogClick(item)} key={item.id}>
-								<BlogCardUserInfo>
-									<Avatar>{item.userName[0].toUpperCase()}</Avatar>
-									<BlogTitle>
-										<div>{item.userName}</div>
-										<div>{item.title}</div>
-									</BlogTitle>
-									<div>{item.publishedOn}</div>
-								</BlogCardUserInfo>
-								<BlogMiniDescription>{item.description}</BlogMiniDescription>
-							</BlogCard>
-						);
-					})}
-				</div>
-			</BlogListWrapper>
-			<BlogContentWrapper>
-					{cardSelected ? '': <EmptyBlog/>}
-			</BlogContentWrapper>
-		</BlogWrapper>
+		<Fragment>
+			<BlogWrapper>
+				{fetchBlogsStatus === "success" &&
+				fetchUsersInfoStatus === "success" &&
+				!isSpinnerRequired ? (
+					<Fragment>
+						<BlogListWrapper>
+							<SearchWrapper>
+								<TextFieldWrapper
+									label="Search By Title"
+									fullWidth
+									color="primary"
+									InputProps={{
+										endAdornment: (
+											<InputAdornment position="start">
+												<IconButton>
+													<SearchIcon />
+												</IconButton>
+											</InputAdornment>
+										),
+									}}
+								/>
+							</SearchWrapper>
+							<CreateNewBlogWrapper>
+								<CreateNewBlogButton>
+									<Button
+										className={classes.button}
+										color="primary"
+										endIcon="launch"
+										handleClick={goToPostYourBlog}
+									>
+										Post Your Blog
+									</Button>
+								</CreateNewBlogButton>
+							</CreateNewBlogWrapper>
+							<BlogListCardsWrapper theme={theme}>
+								{blogPosts?.map((item) => {
+									return (
+										<BlogCard
+											key={item.id}
+											cardProps={{
+												theme,
+												item,
+												cardSelectedId,
+												handleClick: handleBlogClick,
+											}}
+										/>
+									);
+								})}
+							</BlogListCardsWrapper>
+						</BlogListWrapper>
+						<BlogContentWrapper theme={theme}>
+							{cardSelectedId ? (
+								<Fragment>
+									<BlogContent
+										theme={theme}
+										blogId={cardSelectedId}
+										blogPostedBy={selectedBlogUserName}
+									/>
+								</Fragment>
+							) : (
+								<EmptyBlog />
+							)}
+						</BlogContentWrapper>
+					</Fragment>
+				) : null}
+			</BlogWrapper>
+			{isSpinnerRequired ? <Spinner isLoading={isSpinnerRequired} /> : null}
+		</Fragment>
 	);
 };
 
