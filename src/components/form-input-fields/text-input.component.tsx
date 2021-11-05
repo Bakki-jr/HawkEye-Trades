@@ -7,9 +7,11 @@ interface ITextInput {
   label: string;
   name: string;
   type: string;
-  handleChange: (
+  handleChange?: (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => void;
+  handleKeyPress?: any | undefined
+  inputRef?: React.Ref<any> | undefined
 }
 
 const useStyles: any = makeStyles({
@@ -18,18 +20,19 @@ const useStyles: any = makeStyles({
 	},
 });
 
-const TextInput = ({ label, name, type, handleChange }: ITextInput) => {
+const TextInput =({ label, name, type, ...otherProps }: ITextInput) => {
   const classes = useStyles();
   return (
     <TextField
       label={label}
-      color="secondary"
+      color="primary"
       name={name}
       className={classes.textField}
       variant="outlined"
       fullWidth
       type={type}
-      onChange={handleChange}
+      onChange={otherProps?.handleChange}
+      onKeyPress={otherProps?.handleKeyPress}
     />
   );
 };

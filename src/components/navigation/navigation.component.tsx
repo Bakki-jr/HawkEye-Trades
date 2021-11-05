@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { styled, Theme, CSSObject } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
@@ -13,14 +13,22 @@ import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 
-import { Routes } from "../../constants/route-paths";
-import { NavLink } from "react-router-dom";
+import { IUserThemePreference, Routes } from "../../constants/route-paths";
+import { NavLink, useHistory, useLocation } from "react-router-dom";
 
 import WebIcon from "@mui/icons-material/Web";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import LabelImportantIcon from "@mui/icons-material/LabelImportant";
 import StickyNote2Icon from "@mui/icons-material/StickyNote2";
-import { useTheme } from "@mui/system";
+import NoteAddIcon from "@mui/icons-material/NoteAdd";
+import InfoIcon from "@mui/icons-material/Info";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { Box, useTheme } from "@mui/system";
+import { useAppSelector } from "../../features/redux/redux-toolkit-hooks/redux-toolkit-hooks";
+import { Avatar, colors } from "@mui/material";
+import useResetReduxState from "../../features/redux/reset-redux-state/reset-redux-state";
+import { signOutFromApp } from "../../features/firebase/auth";
+import DarkModeToggle from "react-dark-mode-toggle";
 
 const drawerWidth = 240;
 
@@ -53,6 +61,10 @@ export const DrawerHeader = styled("div")(({ theme }) => ({
 	// necessary for content to be below app bar
 	...theme.mixins.toolbar,
 }));
+
+const Toggle = styled(DarkModeToggle)`
+	margin-inline-end: 20px;
+`;
 
 interface AppBarProps extends MuiAppBarProps {
 	open?: boolean;
@@ -93,8 +105,11 @@ const Drawer = styled(MuiDrawer, {
 	}),
 }));
 
-const NavBar = () => {
+const NavBar = ({ darkMode, setDarkMode }: IUserThemePreference) => {
 	const [open, setOpen] = useState(false);
+	const user = useAppSelector((state) => state.user);
+	const reset = useResetReduxState();
+	const history = useHistory();
 	const theme = useTheme();
 	const handleDrawerOpen = () => {
 		setOpen(true);
@@ -104,28 +119,58 @@ const NavBar = () => {
 		setOpen(false);
 	};
 
+	const handleLogout = async (e: any) => {
+		const res = await signOutFromApp();
+		if (res) {
+			reset();
+			history.push(Routes.SIGN_IN);
+		}
+	};
+
 	const NavItems = [
 		{
-			title: "Dashboard",
-			icon: <WebIcon color="secondary" />,
-			redirectTo: Routes.DASHBOARD,
-		},
-		{
-			title: "Blog",
-			icon: <AutoStoriesIcon color="secondary" />,
+			title: "Blog Posts",
+			icon: <AutoStoriesIcon color="primary" />,
 			redirectTo: Routes.BLOG,
 		},
 		{
+			title: "Post Your Blog",
+			icon: <NoteAddIcon color="primary" />,
+			redirectTo: Routes.ADD_BLOG,
+		},
+		{
 			title: "Trade History",
-			icon: <LabelImportantIcon color="secondary" />,
-			redirectTo: "",
+			icon: <LabelImportantIcon color="primary" />,
+			redirectTo: Routes.TRADE_HISTORY,
 		},
 		{
 			title: "Trade Journal",
-			icon: <StickyNote2Icon color="secondary" />,
-			redirectTo: "",
+			icon: <StickyNote2Icon color="primary" />,
+			redirectTo: Routes.TRADE_JOURNAL,
+		},
+		{
+			title: "Stocks Info",
+			icon: <WebIcon color="primary" />,
+			redirectTo: Routes.STOCKS_INFO,
 		},
 	];
+
+	const NavBottomItems = [
+		{
+			title: "Info",
+			icon: <InfoIcon color="primary" />,
+			redirectTo: Routes.INFO,
+		},
+	];
+
+	const handleToggleChange = () => {
+		setDarkMode((prevState: boolean) => !prevState);
+	};
+
+	useEffect(() => {
+		const userThemePreference = darkMode ? "dark" : "light";
+		localStorage.setItem("Theme", userThemePreference);
+	}, [darkMode]);
 
 	const AppHeader = (
 		<AppBar position="fixed" open={open}>
@@ -142,7 +187,35 @@ const NavBar = () => {
 				>
 					<MenuIcon />
 				</IconButton>
-				<Typography variant="h6" noWrap component="div"></Typography>
+				<Typography variant="h6" noWrap component="div">
+					HawkEye Trades
+				</Typography>
+				<Box sx={{ flexGrow: 1 }} />
+				<Toggle
+					onChange={handleToggleChange}
+					checked={!darkMode}
+					size={60}
+					speed={2}
+				/>
+				<Box
+					sx={{
+						display: "flex",
+						flexDirection: "column",
+						alignItems: "flex-end",
+						marginInlineEnd: "15px",
+					}}
+				>
+					<Typography
+						variant="h6"
+						noWrap
+						component="div"
+						sx={{ textTransform: "capitalize" }}
+					>
+						{user.name}
+					</Typography>
+					<Typography variant="subtitle2">{user.email}</Typography>
+				</Box>
+				<Avatar>{user?.name ? user.name[0].toUpperCase() : null}</Avatar>
 			</Toolbar>
 		</AppBar>
 	);
@@ -157,7 +230,8 @@ const NavBar = () => {
 			<Divider />
 			<List disablePadding>
 				{NavItems.map((item, index) => (
-					<NavLink key={index}
+					<NavLink
+						key={index}
 						activeStyle={{
 							background:
 								theme.palette.mode === "dark" ? "#ffffff20" : "#00000020",
@@ -173,15 +247,45 @@ const NavBar = () => {
 					</NavLink>
 				))}
 			</List>
+			<List
+				sx={{ position: "absolute", bottom: "0", width: "100%" }}
+				disablePadding
+			>
+				{NavBottomItems.map((item, index) => (
+					<NavLink
+						key={index}
+						activeStyle={{
+							background:
+								theme.palette.mode === "dark" ? "#ffffff20" : "#00000020",
+							display: "flex",
+						}}
+						exact
+						to={item.redirectTo}
+					>
+						<ListItem button key={index}>
+							<ListItemIcon>{item.icon}</ListItemIcon>
+							<ListItemText primary={item.title} />
+						</ListItem>
+					</NavLink>
+				))}
+				<NavLink exact to={useLocation()} onClick={handleLogout}>
+					<ListItem button>
+						<ListItemIcon>
+							<LogoutIcon sx={{ color: colors.deepPurple.A700 }} />
+						</ListItemIcon>
+						<ListItemText primary="Logout" />
+					</ListItem>
+				</NavLink>
+			</List>
 		</Drawer>
 	);
-	
+
 	return (
 		<Fragment>
 			{AppHeader}
 			{SideNav}
 		</Fragment>
 	);
-}
+};
 
 export default NavBar;
