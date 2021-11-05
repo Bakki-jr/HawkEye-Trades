@@ -1,75 +1,102 @@
-import { BrowserRouter, Route, Switch } from "react-router-dom";
 import SignIn from "../pages/sign-in/sign-in.page";
 import SignUp from "../pages/sign-up/sign-up.page";
-import Dashboard from "../pages/dashboard/dashboard.page";
+import StocksInfo from "../pages/stocks-info/stocks-info.page";
 import Blog from "../pages/blog/blog.page";
-import { Box } from "@mui/material";
-import NavBar, { DrawerHeader } from "../components/navigation/navigation.component";
-import CssBaseline from '@mui/material/CssBaseline';
-
+import AddBlog from "../pages/create-blog/create-blog.page";
+import TradeHistory from "../pages/trade-history/trade-history.page";
+import TradeJournal from "../pages/trade-journal/trade-journal.page";
+import TradeInfo from "../pages/trade-info/trade-info.page";
+import InfoPage from "../pages/info/info.page";
 
 interface IRouteNavigation {
 	id: number;
 	path: string;
 	page: () => JSX.Element;
+	isRouteToBeProtected: boolean;
 }
 
 export enum Routes {
 	SIGN_IN = "/sign-in",
 	SIGN_UP = "/sign-up",
-	DASHBOARD = "/dashboard",
+	LANDING = "/",
 	BLOG = "/blog",
+	ADD_BLOG = "/create-blog-post",
+	TRADE_HISTORY = "/trade-history",
+	TRADE_JOURNAL = "/trade-journal",
+	TRADE_INFO = "/trade-history/:id",
+	STOCKS_INFO = "/stocks-info",
+	INFO = "/info",
 }
 
-const routeNavigation: IRouteNavigation[] = [
+interface IUserLoggedIn {
+	isUserLoggedIn: boolean;
+}
+export interface IUserThemePreference {
+	darkMode: boolean;
+	setDarkMode: any;
+}
+
+export interface IUserSetup extends IUserLoggedIn, IUserThemePreference {}
+
+export const routeNavigation: IRouteNavigation[] = [
 	{
 		id: 1,
 		path: Routes.SIGN_IN,
 		page: SignIn,
+		isRouteToBeProtected: false,
 	},
 	{
 		id: 2,
 		path: Routes.SIGN_UP,
 		page: SignUp,
+		isRouteToBeProtected: false,
 	},
 	{
 		id: 3,
-		path: Routes.DASHBOARD,
-		page: Dashboard,
+		path: Routes.STOCKS_INFO,
+		page: StocksInfo,
+		isRouteToBeProtected: true,
 	},
 	{
-		id: 3,
+		id: 4,
+		path: Routes.LANDING,
+		page: Blog,
+		isRouteToBeProtected: true,
+	},
+	{
+		id: 5,
 		path: Routes.BLOG,
 		page: Blog,
+		isRouteToBeProtected: true,
+	},
+	{
+		id: 6,
+		path: Routes.ADD_BLOG,
+		page: AddBlog,
+		isRouteToBeProtected: true,
+	},
+	{
+		id: 7,
+		path: Routes.TRADE_HISTORY,
+		page: TradeHistory,
+		isRouteToBeProtected: true,
+	},
+	{
+		id: 8,
+		path: Routes.TRADE_JOURNAL,
+		page: TradeJournal,
+		isRouteToBeProtected: true,
+	},
+	{
+		id: 9,
+		path: Routes.TRADE_INFO,
+		page: TradeInfo,
+		isRouteToBeProtected: true,
+	},
+	{
+		id: 10,
+		path: Routes.INFO,
+		page: InfoPage,
+		isRouteToBeProtected: true,
 	},
 ];
-
-const RoutePaths = (props: any) => (
-	<BrowserRouter>
-		<Switch>
-			{routeNavigation.map((route) =>
-				props.isUserLoggedIn ? (
-					<Route key={route.id} path={route.path} exact>
-						<Box sx={{ display: "flex" }}>
-            <CssBaseline />
-						<NavBar />
-							<Box component="main" sx={{ flexGrow: 1 }}>
-								<DrawerHeader />
-								<route.page />
-							</Box>
-						</Box>
-					</Route>
-				) : (
-					<Route
-						key={route.id}
-						path={route.path}
-						component={route.page}
-						exact
-					></Route>
-				)
-			)};
-		</Switch>
-	</BrowserRouter>
-);
-
-export default RoutePaths;
