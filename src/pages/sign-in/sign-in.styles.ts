@@ -5,8 +5,6 @@ import image3 from "../../assets/images/nli/street-light.jpg";
 import image4 from "../../assets/images/nli/window.jpg";
 import image5 from "../../assets/images/nli/mountain.jpg";
 
-import signInUserImage from "../../assets/images/nli/sign-in-user-image.svg";
-import signUpUserImage from "../../assets/images/nli/sign-up-user-image.svg";
 import Rocket from "../../assets/images/nli/rocket.svg";
 import Launch from "../../assets/images/nli/launch.svg";
 
