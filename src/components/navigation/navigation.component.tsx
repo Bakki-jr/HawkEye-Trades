@@ -14,7 +14,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 
 import { IUserThemePreference, Routes } from "../../constants/route-paths";
-import { NavLink, useHistory, useLocation } from "react-router-dom";
+import { NavLink} from "react-router-dom";
 
 import WebIcon from "@mui/icons-material/Web";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
@@ -109,7 +109,6 @@ const NavBar = ({ darkMode, setDarkMode }: IUserThemePreference) => {
 	const [open, setOpen] = useState(false);
 	const user = useAppSelector((state) => state.user);
 	const reset = useResetReduxState();
-	const history = useHistory();
 	const theme = useTheme();
 	const handleDrawerOpen = () => {
 		setOpen(true);
@@ -120,11 +119,7 @@ const NavBar = ({ darkMode, setDarkMode }: IUserThemePreference) => {
 	};
 
 	const handleLogout = async (e: any) => {
-		const res = await signOutFromApp();
-		if (res) {
-			reset();
-			history.push(Routes.SIGN_IN);
-		}
+		reset().then((res) => res && signOutFromApp());
 	};
 
 	const NavItems = [
@@ -268,14 +263,14 @@ const NavBar = ({ darkMode, setDarkMode }: IUserThemePreference) => {
 						</ListItem>
 					</NavLink>
 				))}
-				<NavLink exact to={useLocation()} onClick={handleLogout}>
+				<div onClick={handleLogout}>
 					<ListItem button>
 						<ListItemIcon>
 							<LogoutIcon sx={{ color: colors.deepPurple.A700 }} />
 						</ListItemIcon>
 						<ListItemText primary="Logout" />
 					</ListItem>
-				</NavLink>
+				</div>
 			</List>
 		</Drawer>
 	);

@@ -59,15 +59,18 @@ const SignIn = () => {
 				!isNewUser && dispatch(addUser(user));
 				isNewUser && uid && dispatch(fetchUser(uid));
 			});
-	}, [uid, dispatch, user, validateUser]);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [uid]);
 
 	useEffect(() => {
 		isUserAdded === "success" && dispatch(fetchUser(uid));
-	}, [uid, isUserAdded, dispatch]);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isUserAdded]);
 
 	useEffect(() => {
 		isUserDataFetched === "success" && history.push(Routes.BLOG);
-	}, [isUserDataFetched, history]);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isUserDataFetched]);
 
 	const handleChange = (
 		event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>

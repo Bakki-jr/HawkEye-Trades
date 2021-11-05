@@ -7,9 +7,13 @@ const useResetReduxState = () => {
 	const dispatch = useAppDispatch();
 
 	const resetData = () => {
-		dispatch(resetLoginData());
-		dispatch(resetUserData());
-		dispatch(resetUserTrades());
+    const promise = new Promise<boolean>(resolve => {
+      dispatch(resetUserData());
+      dispatch(resetLoginData());
+      dispatch(resetUserTrades());
+      resolve(true);
+    })
+    return promise;
 	};
 	return resetData;
 };
