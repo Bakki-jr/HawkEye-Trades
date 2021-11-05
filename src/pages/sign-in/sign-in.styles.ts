@@ -1,13 +1,16 @@
 import styled from "styled-components";
-import image1 from "../../assets/images/nli/user-nli-image-1.jpg";
-import image2 from "../../assets/images/nli/user-nli-image-2.jpg";
-import image3 from "../../assets/images/nli/user-nli-image-3.jpg";
-import image4 from "../../assets/images/nli/user-nli-image-4.jpg";
+import image1 from "../../assets/images/nli/light.jpg";
+import image2 from "../../assets/images/nli/silloute-fishing-boat.jpg";
+import image3 from "../../assets/images/nli/street-light.jpg";
+import image4 from "../../assets/images/nli/window.jpg";
+import image5 from "../../assets/images/nli/mountain.jpg";
 
 import signInUserImage from "../../assets/images/nli/sign-in-user-image.svg";
 import signUpUserImage from "../../assets/images/nli/sign-up-user-image.svg";
+import Rocket from "../../assets/images/nli/rocket.svg";
+import Launch from "../../assets/images/nli/launch.svg";
 
-export const images = [image1, image2, image3, image4];
+export const images = [image1, image2, image3, image4, image5];
 
 interface Props {
 	image: string;
@@ -18,8 +21,9 @@ interface randomImageProp {
 }
 
 export const Wrapper = styled.div<randomImageProp>`
-	background-image: url(${(props) =>
-		props.randomImage ? images[props.randomImage] : images[0]});
+	background: url(${(props) =>
+			props.randomImage ? images[props.randomImage] : images[0]}),
+		#00000080;
 	width: 100vw;
 	height: 100vh;
 	background-size: cover;
@@ -55,9 +59,9 @@ export const SignInContainer = styled.div`
 
 export const SignInUserImage = styled.div<Props>`
 	background-image: url(${(props) =>
-		props.image === "userSignIn" ? signInUserImage : signUpUserImage});
-	width: 406px;
-	height: 306px;
+		props.image === "userSignIn" ? Rocket : Launch});
+	width: 350px;
+	aspect-ratio: 1;
 	background-repeat: no-repeat;
 `;
 
