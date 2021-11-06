@@ -17,3 +17,11 @@ export const InfoItemTitle = styled.span``;
 export const InfoItemValue = styled.span`
 	font-weight: bold;
 `;
+
+export const TradeEditorParserContent = styled.div`
+	img {
+		max-width: 100%;
+		aspect-ratio: 16/9;
+		padding: 15px;
+	}
+`;

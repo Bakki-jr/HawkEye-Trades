@@ -6,19 +6,19 @@ import bannerWave from "../../assets/images/waves/banner-wave.svg";
 
 export const BlogWrapper = styled.div`
 	display: flex;
-  position: relative;
-  `;
-  
+	position: relative;
+`;
+
 export const BlogListWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	min-width: 350px;
-	max-width: 400px;
+	max-width: 380px;
 	background: #dedede30;
 	padding-block-start: 20px;
 	height: calc(100vh - 64px);
-  position: sticky;
-  bottom: 0;
+	position: sticky;
+	bottom: 0;
 `;
 
 export const SearchWrapper = styled.div`
@@ -55,9 +55,9 @@ export const CreateNewBlogButton = styled.div`
 
 export const BlogListCardsWrapper = styled.div`
 	overflow-y: auto;
-  margin-top: 10px;
-  padding-inline: 5% calc(5% - 10px);
-  margin-inline-end: 5px;
+	margin-top: 10px;
+	padding-inline: 5% calc(5% - 10px);
+	margin-inline-end: 5px;
 	::-webkit-scrollbar {
 		width: 5px;
 	}
@@ -75,8 +75,8 @@ export const BlogContentWrapper = styled.div`
 	display: flex;
 	flex-grow: 1;
 	height: calc(100vh - 64px);
-  overflow-y:auto;
-  ::-webkit-scrollbar {
+	overflow-y: auto;
+	::-webkit-scrollbar {
 		width: 5px;
 	}
 	::-webkit-scrollbar-track {
@@ -91,7 +91,7 @@ export const BlogContentWrapper = styled.div`
 
 export const EmptyBlog = styled.div`
 	background-image: url(${hidingImage});
-  min-width: 40%;
+	min-width: 40%;
 	max-width: 400px;
 	aspect-ratio: 16/10;
 	margin: auto;

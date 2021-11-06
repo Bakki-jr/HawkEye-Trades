@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import Spinner from "../../components/spinner/spinner.component";
 import {
 	useAppDispatch,
@@ -16,6 +16,8 @@ import {
 	QuotesBanner,
 	Container,
 	OverviewWrapper,
+	AddTradeContainer,
+	AddTradeImage,
 } from "./trade-history.styles";
 import { useTheme } from "@mui/material";
 
@@ -78,7 +80,13 @@ const TradeHistory: () => JSX.Element = () => {
 				<QuotesBanner>
 					<OverviewWrapper>
 						<Button className={classes.button} color="primary">
-							{`Total PNL: ${formatToIndianCurrency(userTrades.reduce((prevPNL, currentTrade) => prevPNL + Number(currentTrade.profitAndLoss), 0))}`}
+							{`Total PNL: ${formatToIndianCurrency(
+								userTrades.reduce(
+									(prevPNL, currentTrade) =>
+										prevPNL + Number(currentTrade.profitAndLoss),
+									0
+								)
+							)}`}
 						</Button>
 					</OverviewWrapper>
 					<OverviewWrapper>
@@ -90,15 +98,22 @@ const TradeHistory: () => JSX.Element = () => {
 			</BannersContainer>
 			<TradeHistoryTitle>Trade History</TradeHistoryTitle>
 			<TradesWrapper>
-				{userTrades.map((trade, index) => (
-					<div key={index}>
-						<TradeOverviewCard
-							trade={trade}
-							theme={theme}
-							handleClick={() => goToTradeDetails(trade.id)}
-						/>
-					</div>
-				))}
+				{userTrades.length === 0 ? (
+					<AddTradeContainer>
+						<AddTradeImage></AddTradeImage>
+						<div>post your trade to view</div>
+					</AddTradeContainer>
+				) : (
+					userTrades.map((trade, index) => (
+						<div key={index}>
+							<TradeOverviewCard
+								trade={trade}
+								theme={theme}
+								handleClick={() => goToTradeDetails(trade.id)}
+							/>
+						</div>
+					))
+				)}
 			</TradesWrapper>
 		</Container>
 	);

@@ -12,6 +12,7 @@ import {
 	StockName,
 	InfoItemTitle,
 	InfoItemValue,
+	TradeEditorParserContent,
 } from "./trade-details.styles";
 import { Theme, Typography } from "@mui/material";
 import { getDateFromTimeStamp } from "../../helpers/helper-date";
@@ -239,7 +240,7 @@ const TradeDetails = ({ theme, tradeInfo, markup }: ITradeInfo) => {
 					</TableBody>
 				</Table>
 			</TableContainer>
-			<div>{ReactHtmlParser(markup)}</div>
+			<TradeEditorParserContent>{ReactHtmlParser(markup)}</TradeEditorParserContent>
 		</Fragment>
 	);
 };

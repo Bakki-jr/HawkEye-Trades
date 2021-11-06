@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import QuotesbannerWave from "../../assets/images/waves/add-trade-banner.svg";
 import addJournalBannerWave from "../../assets/images/waves/banner-wave.svg";
+import AddTradeSVG from "../../assets/images/trade-history/add-trade.svg";
 
 export const Container = styled.div`
 	display: flex;
@@ -50,9 +51,9 @@ export const QuotesBanner = styled.div`
 	background-repeat: no-repeat;
 	background-position: bottom;
 	background-size: cover;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
 	width: max(40%, 600px);
 `;
 
@@ -68,4 +69,23 @@ export const TradesWrapper = styled.div`
 	flex-wrap: wrap;
 	justify-content: space-evenly;
 	margin: 20px;
+`;
+
+export const AddTradeContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	font-size: 18px;
+`;
+
+export const AddTradeImage = styled.div`
+	background-image: url(${AddTradeSVG});
+	width: 500px;
+	height: 380px;
+	text-align: center;
+	position: relative;
+	vertical-align: text-top;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
 `;

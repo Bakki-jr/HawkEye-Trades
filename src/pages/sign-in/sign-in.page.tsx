@@ -42,11 +42,13 @@ const SignIn = () => {
 	const dispatch = useAppDispatch();
 	const { user, uid } = useAppSelector((state) => state.login);
 	const isUserAdded = useAppSelector((state) => state.user.addUserToDbStatus);
-	const userEmailLoginStatus = useAppSelector((state) => state.login.status);
-	const isSpinnerRequired = isAPIFetchedSuccefully(userEmailLoginStatus);
+	const userSignInStatus = useAppSelector((state) => state.login.status);
 	const isUserDataFetched = useAppSelector(
 		(state) => state.user.fetchedUserStatus
 	);
+	const loggedInUserName = useAppSelector((state) => state.user.name);
+	const spinnerForSignIn = isAPIFetchedSuccefully(userSignInStatus);
+	const sipnnerForUserFetch = isAPIFetchedSuccefully(isUserDataFetched);
 
 	const validateUser = useCallback(async () => {
 		return await isUserExists(uid);
@@ -57,20 +59,33 @@ const SignIn = () => {
 			validateUser().then((isNewUser) => {
 				console.log(!isNewUser, "isNewUser");
 				!isNewUser && dispatch(addUser(user));
-				isNewUser && uid && dispatch(fetchUser(uid));
+				isNewUser &&
+					uid &&
+					dispatch(fetchUser(uid)).then((res) => console.log(res, "existing"));
 			});
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [uid]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [uid !== undefined]);
 
 	useEffect(() => {
-		isUserAdded === "success" && dispatch(fetchUser(uid));
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		console.log("new user");
+		isUserAdded === "success" &&
+			dispatch(fetchUser(uid)).then((res) => console.log(res, "new"));
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isUserAdded]);
 
 	useEffect(() => {
 		isUserDataFetched === "success" && history.push(Routes.BLOG);
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isUserDataFetched]);
+
+	useEffect(() => {
+		isUserDataFetched === "success" &&
+			userSignInStatus === "success" &&
+			toast({
+				message: `Welcome back ${loggedInUserName}`,
+			});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [userSignInStatus, isUserDataFetched]);
 
 	const handleChange = (
 		event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -129,11 +144,11 @@ const SignIn = () => {
 						color="primary"
 						endIcon="send"
 						handleClick={handleSignInWithEmail}
-						loading={isSpinnerRequired}
+						loading={spinnerForSignIn || sipnnerForUserFetch}
 					>
 						Unleash the journey
 					</Button>
-					<Button startIcon="google" color="info" handleClick={googleSignIn}>
+					<Button startIcon="google" color="warning" handleClick={googleSignIn}>
 						Google Sign In
 					</Button>
 					<Button endIcon="door" handleClick={redirectTo}>

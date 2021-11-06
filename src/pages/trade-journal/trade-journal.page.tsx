@@ -192,30 +192,33 @@ const TradeJournal = () => {
 	}, [saveTradeStatus, history, dispatch]);
 
 	const calculatePNL = () => {
-		if (segmentSelected === SegmentTypes.equity) {
-			const entry = positionChangeWatcher[0];
-			const exit = positionChangeWatcher[1];
+		/**
+		 * Need to Implement specific calculation based on segement and position side:
+		 */
+		// if (segmentSelected === SegmentTypes.equity) {
+		const entry = positionChangeWatcher[0];
+		const exit = positionChangeWatcher[1];
 
-			let totalAmountInvested = 0;
-			let exitValue = 0;
-			let startDate: Date = entry[0].date;
-			let endDate: Date = exit[0].date;
+		let totalAmountInvested = 0;
+		let exitValue = 0;
+		let startDate: Date = entry[0].date;
+		let endDate: Date = exit[0].date;
 
-			entry.forEach((entryPosition) => {
-				totalAmountInvested =
-					entryPosition.quantity * entryPosition.price + totalAmountInvested;
-				startDate = filterDate(startDate, entryPosition.date, "min");
-			});
+		entry.forEach((entryPosition) => {
+			totalAmountInvested =
+				entryPosition.quantity * entryPosition.price + totalAmountInvested;
+			startDate = filterDate(startDate, entryPosition.date, "min");
+		});
 
-			exit.forEach((exitPosition) => {
-				exitValue = exitPosition.quantity * exitPosition.price + exitValue;
-				endDate = filterDate(endDate, exitPosition.date, "max");
-			});
+		exit.forEach((exitPosition) => {
+			exitValue = exitPosition.quantity * exitPosition.price + exitValue;
+			endDate = filterDate(endDate, exitPosition.date, "max");
+		});
 
-			const pnl = exitValue - totalAmountInvested;
+		const pnl = exitValue - totalAmountInvested;
 
-			setCalculatedValues(pnl, totalAmountInvested, endDate, startDate);
-		}
+		setCalculatedValues(pnl, totalAmountInvested, endDate, startDate);
+		// }
 	};
 
 	const setCalculatedValues = (
