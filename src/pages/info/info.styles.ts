@@ -11,6 +11,7 @@ import firebase from "../../assets/images/app-info/firebase.jpg";
 import draftjs from "../../assets/images/app-info/draftjs.jpg";
 import momentjs from "../../assets/images/app-info/momentjs.png";
 import uuid from "../../assets/images/app-info/uuid.png";
+import rive from "../../assets/images/app-info/rive.png";
 
 export const librariesUsed = [
 	{
@@ -67,6 +68,11 @@ export const librariesUsed = [
 		title: "UUID",
 		image: uuid,
 		info: "A universally unique identifier (UUID) is an identifier of the 128-bit value that is used in the construction of software. Each bit present in the value differs by the meaning as several variants are considered. The main objective of this UUID is every time the numbers are generated, the value obtained will be universally unique.",
+	},
+	{
+		title: "Rive",
+		image: rive,
+		info: "Rive is a real-time interactive design and animation tool. It has a collaborative editor to create motion graphics that respond to different states and user inputs. Then load your animations into apps, games, and websites with our lightweight open-source runtimes.",
 	},
 ];
 

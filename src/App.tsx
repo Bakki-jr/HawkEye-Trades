@@ -32,7 +32,7 @@ const App = () => {
 			}
 		});
 		const isDarkModeEnabled =
-			localStorage.getItem("Theme") === "light" ? false : true;
+			localStorage.getItem("theme") === "light" ? false : true;
 		setDarkMode(isDarkModeEnabled);
 		return authSubscription;
 	// eslint-disable-next-line react-hooks/exhaustive-deps

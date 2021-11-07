@@ -27,6 +27,20 @@ export const Wrapper = styled.div<randomImageProp>`
 	background-size: cover;
 `;
 
+export const SignInWrapper = styled.div`
+	background: #4d4c60;
+	width: 100vw;
+	height: 100vh;
+	background-size: cover;
+`;
+export const RiveWrapper = styled.div`
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	width: 310px;
+	height: 310px;
+`;
+
 export const SignInContainer = styled.div`
 	width: 900px;
 	height: 550px;
@@ -53,6 +67,15 @@ export const SignInContainer = styled.div`
 		filter: blur(10px);
 		margin: -20px;
 	}
+`;
+
+export const TeddyWrapper = styled.div`
+	width: 400px;
+	height: 483px;
+	border-radius: 20px;
+	overflow: hidden;
+	background: #d6e2ea;
+	position: relative;
 `;
 
 export const SignInUserImage = styled.div<Props>`

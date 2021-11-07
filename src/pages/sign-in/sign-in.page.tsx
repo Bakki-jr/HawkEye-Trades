@@ -1,15 +1,14 @@
 import { Typography } from "@mui/material";
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import Button from "../../components/form-input-fields/button.component";
 import TextInput from "../../components/form-input-fields/text-input.component";
 import { useHistory } from "react-router-dom";
 import { useTheme } from "@mui/material";
 import {
-	images,
 	SignInContainer,
 	SignInFormWrapper,
-	SignInUserImage,
-	Wrapper,
+	SignInWrapper,
+	TeddyWrapper,
 } from "./sign-in.styles";
 import { Routes } from "../../constants/route-paths";
 import { isUserExists } from "../../features/firebase/auth";
@@ -24,6 +23,18 @@ import {
 } from "../../features/redux/slice/login.slice";
 import { isAPIFetchedSuccefully } from "../../helpers/helper-API-status";
 import useToast from "../../hooks/use-toast";
+import { useRive } from "rive-react";
+import TeddyRiveComponent from "../../components/teddy-login-rive/teddy-login-rive.component";
+import {
+	STATE_TEDDY_MACHINE_NAME,
+	useTeddyRiveFailure,
+	useTeddyRiveSuccess,
+} from "../../hooks/use-login-teddy-rive";
+import {
+	STATE_TREE_MACHINE_NAME,
+	useTreeRiveInputChange,
+} from "../../hooks/use-tree-rive";
+import TreeRiveComponent from "../../components/tree-rive/tree-rive.component";
 
 export interface ISignInForm {
 	email: string;
@@ -35,6 +46,26 @@ const SignIn = () => {
 		email: "",
 		password: "",
 	});
+	const inputTypeRef = useRef("");
+
+	const treeRiveParams = {
+		src: "rive/tree.riv",
+		stateMachines: STATE_TREE_MACHINE_NAME,
+		artboard: "New Artboard",
+		autoplay: true,
+	};
+	const { RiveComponent: TreeRive, rive: TreeRiveInstance } =
+		useRive(treeRiveParams);
+
+	const teddyRiveParams = {
+		src: "rive/teddy.riv",
+		stateMachines: STATE_TEDDY_MACHINE_NAME,
+		artboard: "Artboard",
+		animations: ["look_idle"],
+		autoplay: true,
+	};
+	const { RiveComponent: teddyRive, rive: teddyRiveInstance } =
+		useRive(teddyRiveParams);
 
 	const history = useHistory();
 	const theme = useTheme();
@@ -50,6 +81,30 @@ const SignIn = () => {
 	const spinnerForSignIn = isAPIFetchedSuccefully(userSignInStatus);
 	const sipnnerForUserFetch = isAPIFetchedSuccefully(isUserDataFetched);
 
+	const teddyRiveSuccess = useTeddyRiveSuccess(teddyRiveInstance);
+	const teddyRiveFailure = useTeddyRiveFailure(teddyRiveInstance);
+	const treeRiveInputChange: any = useTreeRiveInputChange(TreeRiveInstance);
+
+	useEffect(() => {
+		const emailLength = signInData.email.length;
+		const passwordLength = signInData.password.length;
+		if (emailLength > 0 && passwordLength === 0) {
+			treeRiveInputChange.value = 10;
+		} else if (passwordLength > 0 && passwordLength < 8 && emailLength !== 0) {
+			treeRiveInputChange.value = 20;
+		} else if (
+			(passwordLength >= 8 && emailLength < 5 && emailLength > 2) ||
+			(passwordLength < 8 && emailLength >= 10 && passwordLength > 5)
+		) {
+			treeRiveInputChange.value = 40;
+		} else if (passwordLength >= 8 && emailLength > 10) {
+			treeRiveInputChange.value = 100;
+		} else if (emailLength === 0 && passwordLength === 0) {
+			if (TreeRiveInstance) treeRiveInputChange.value = 0;
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [signInData]);
+
 	const validateUser = useCallback(async () => {
 		return await isUserExists(uid);
 	}, [uid]);
@@ -57,19 +112,14 @@ const SignIn = () => {
 	useEffect(() => {
 		uid &&
 			validateUser().then((isNewUser) => {
-				console.log(!isNewUser, "isNewUser");
 				!isNewUser && dispatch(addUser(user));
-				isNewUser &&
-					uid &&
-					dispatch(fetchUser(uid)).then((res) => console.log(res, "existing"));
+				isNewUser && uid && dispatch(fetchUser(uid));
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [uid !== undefined]);
 
 	useEffect(() => {
-		console.log("new user");
-		isUserAdded === "success" &&
-			dispatch(fetchUser(uid)).then((res) => console.log(res, "new"));
+		isUserAdded === "success" && dispatch(fetchUser(uid));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isUserAdded]);
 
@@ -84,6 +134,13 @@ const SignIn = () => {
 			toast({
 				message: `Welcome back ${loggedInUserName}`,
 			});
+
+		if (userSignInStatus === "success") {
+			inputTypeRef.current === "password" &&
+				teddyRiveInstance &&
+				teddyRiveInstance.play(["hands_down"]);
+			teddyRiveInstance && teddyRiveSuccess && teddyRiveSuccess.fire();
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [userSignInStatus, isUserDataFetched]);
 
@@ -92,6 +149,16 @@ const SignIn = () => {
 	) => {
 		const { name, value } = event.target;
 		setSignInData({ ...signInData, [name]: value });
+		if (name === "email" && inputTypeRef.current !== "email") {
+			inputTypeRef.current !== "" &&
+				teddyRiveInstance &&
+				teddyRiveInstance.play(["hands_down"]);
+			inputTypeRef.current = name;
+		}
+		if (name === "password" && inputTypeRef.current !== "password") {
+			inputTypeRef.current = name;
+			teddyRiveInstance && teddyRiveInstance.play(["hands_up"]);
+		}
 	};
 
 	const handleKeypress = (event: any) => {
@@ -101,8 +168,13 @@ const SignIn = () => {
 	const handleSignInWithEmail = (event?: any) => {
 		if (event) event.preventDefault();
 		dispatch(signInWithEmail(signInData)).then((res: any) => {
-			res?.error?.message &&
+			if (res?.error?.message) {
+				inputTypeRef.current === "password" &&
+					teddyRiveInstance &&
+					teddyRiveInstance.play(["hands_down"]);
+				teddyRiveInstance && teddyRiveFailure && teddyRiveFailure.fire();
 				toast({ message: res.error.message, variant: "error" });
+			}
 		});
 	};
 
@@ -110,15 +182,13 @@ const SignIn = () => {
 
 	const redirectTo = () => history.push(Routes.SIGN_UP);
 
-	const randomBackground = useMemo(
-		() => Math.ceil(Math.random() * images.length - 1),
-		[]
-	);
-
 	return (
-		<Wrapper randomImage={randomBackground}>
+		<SignInWrapper>
+			<TreeRiveComponent riveComponent={TreeRive} />
 			<SignInContainer>
-				<SignInUserImage image="userSignIn" />
+				<TeddyWrapper>
+					<TeddyRiveComponent riveComponent={teddyRive} />
+				</TeddyWrapper>
 				<SignInFormWrapper theme={theme}>
 					<Typography variant="h4" color="primary" align="center">
 						Login
@@ -156,7 +226,7 @@ const SignIn = () => {
 					</Button>
 				</SignInFormWrapper>
 			</SignInContainer>
-		</Wrapper>
+		</SignInWrapper>
 	);
 };
 
