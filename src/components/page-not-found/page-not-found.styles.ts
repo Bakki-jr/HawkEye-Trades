@@ -10,7 +10,7 @@ export const PageNotFoundWrapper = styled.div`
 
 export const ErrorImage = styled.div<any>`
 	background-image: url(${(props) => props.image});
-	max-width: 500px;
+	max-width: 350px;
 	aspect-ratio: 1;
 	background-repeat: no-repeat;
 	background-size: contain;
@@ -34,7 +34,7 @@ export const ErrorCode = styled.div<any>`
 	text-align: center;
 	font-size: 5rem;
 	font-weight: bold;
-	margin-block-start: 25px;
+	margin-block-start: 5px;
 `;
 
 export const Info = styled.div`

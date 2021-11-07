@@ -1,6 +1,7 @@
-import { Avatar, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { Theme } from "@mui/system";
 import { getTimeFromNow } from "../../helpers/helper-date";
+import UserAvatar from "../user-avatar/user-avatar.component";
 import {
 	BlogCardUserInfo,
 	BlogCardWrapper,
@@ -27,7 +28,7 @@ const BlogCard = ({
 	return (
 		<Card theme={theme} onClick={(e) => handleClick(item)}>
 			<BlogCardUserInfo>
-				<Avatar>{item.userName[0].toUpperCase()}</Avatar>
+				<UserAvatar userName={item.userName[0].toUpperCase()} />
 				<BlogTitle>
 					<div>{item.userName}</div>
 					<BoldTitle>{item.title}</BoldTitle>

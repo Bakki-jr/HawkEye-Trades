@@ -1,4 +1,3 @@
-import { Avatar } from "@mui/material";
 import { Theme } from "@mui/system";
 import draftToHtml from "draftjs-to-html";
 import { Fragment, useEffect, useState } from "react";
@@ -43,6 +42,7 @@ import { onSnapshot } from "@firebase/firestore";
 import { db } from "../../features/firebase/config";
 import { doc } from "firebase/firestore";
 import Spinner from "../spinner/spinner.component";
+import UserAvatar from "../user-avatar/user-avatar.component";
 
 interface IBlogContent {
 	theme: Theme;
@@ -129,7 +129,7 @@ const BlogContent = ({ theme, blogId, blogPostedBy }: IBlogContent) => {
 			{fetchedBlogStatus === "success" ? (
 				<Fragment>
 					<BlogHeader>
-						<Avatar>{blogPostedBy[0].toUpperCase()}</Avatar>
+						<UserAvatar userName={blogPostedBy[0].toUpperCase()} />
 						<SpecificBlogPublishedBy>{blogPostedBy}</SpecificBlogPublishedBy>
 						<SpecificBlogPublishedOn color={theme.palette.primary.main}>
 							{fetchedBlog?.publishedOn &&
@@ -149,11 +149,13 @@ const BlogContent = ({ theme, blogId, blogPostedBy }: IBlogContent) => {
 							return (
 								<CommentsWrapper wrapperProps={{ theme, index }} key={index}>
 									<CommentHeader>
-										<Avatar>
-											{getUserName(item.uid)
-												? getUserName(item.uid)[0].toUpperCase()
-												: null}
-										</Avatar>
+										<UserAvatar
+											userName={
+												getUserName(item.uid)
+													? getUserName(item.uid)[0].toUpperCase()
+													: null
+											}
+										/>
 										<CommentedBy>{getUserName(item.uid)}</CommentedBy>
 										<CommentedOn color={theme.palette.primary.main}>
 											{item.createdAt ? getTimeFromNow(item.createdAt) : null}

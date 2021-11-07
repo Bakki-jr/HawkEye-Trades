@@ -14,9 +14,10 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 
 import { IUserThemePreference, Routes } from "../../constants/route-paths";
-import { NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import WebIcon from "@mui/icons-material/Web";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import LabelImportantIcon from "@mui/icons-material/LabelImportant";
 import StickyNote2Icon from "@mui/icons-material/StickyNote2";
@@ -29,6 +30,8 @@ import { Avatar, colors } from "@mui/material";
 import useResetReduxState from "../../features/redux/reset-redux-state/reset-redux-state";
 import { signOutFromApp } from "../../features/firebase/auth";
 import DarkModeToggle from "react-dark-mode-toggle";
+import useToast from "../../hooks/use-toast";
+import UserAvatar from "../user-avatar/user-avatar.component";
 
 const drawerWidth = 240;
 
@@ -110,6 +113,7 @@ const NavBar = ({ darkMode, setDarkMode }: IUserThemePreference) => {
 	const user = useAppSelector((state) => state.user);
 	const reset = useResetReduxState();
 	const theme = useTheme();
+	const toast = useToast();
 	const handleDrawerOpen = () => {
 		setOpen(true);
 	};
@@ -119,7 +123,15 @@ const NavBar = ({ darkMode, setDarkMode }: IUserThemePreference) => {
 	};
 
 	const handleLogout = async (e: any) => {
-		reset().then((res) => res && signOutFromApp());
+		reset().then(
+			(res) =>
+				res &&
+				signOutFromApp().then(
+					(res) =>
+						res &&
+						toast({ message: "Logged Out Successfully !!", variant: "info" })
+				)
+		);
 	};
 
 	const NavItems = [
@@ -156,6 +168,11 @@ const NavBar = ({ darkMode, setDarkMode }: IUserThemePreference) => {
 			icon: <InfoIcon color="primary" />,
 			redirectTo: Routes.INFO,
 		},
+		{
+			title: "User Profile",
+			icon: <AccountBoxIcon color="primary" />,
+			redirectTo: Routes.USER_PROFILE,
+		},
 	];
 
 	const handleToggleChange = () => {
@@ -164,7 +181,7 @@ const NavBar = ({ darkMode, setDarkMode }: IUserThemePreference) => {
 
 	useEffect(() => {
 		const userThemePreference = darkMode ? "dark" : "light";
-		localStorage.setItem("Theme", userThemePreference);
+		localStorage.setItem("theme", userThemePreference);
 	}, [darkMode]);
 
 	const AppHeader = (
@@ -210,7 +227,7 @@ const NavBar = ({ darkMode, setDarkMode }: IUserThemePreference) => {
 					</Typography>
 					<Typography variant="subtitle2">{user.email}</Typography>
 				</Box>
-				<Avatar>{user?.name ? user.name[0].toUpperCase() : null}</Avatar>
+				<UserAvatar userName={user?.name ? user.name[0].toUpperCase() : "null"} />
 			</Toolbar>
 		</AppBar>
 	);

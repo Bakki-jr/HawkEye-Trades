@@ -7,6 +7,7 @@ import TradeHistory from "../pages/trade-history/trade-history.page";
 import TradeJournal from "../pages/trade-journal/trade-journal.page";
 import TradeInfo from "../pages/trade-info/trade-info.page";
 import InfoPage from "../pages/info/info.page";
+import UserProfile from "../pages/user-profile/user-profile.page";
 
 interface IRouteNavigation {
 	id: number;
@@ -26,6 +27,7 @@ export enum Routes {
 	TRADE_INFO = "/trade-history/:id",
 	STOCKS_INFO = "/stocks-info",
 	INFO = "/info",
+	USER_PROFILE = "/update-user-profile",
 }
 
 interface IUserLoggedIn {
@@ -95,6 +97,12 @@ export const routeNavigation: IRouteNavigation[] = [
 	},
 	{
 		id: 10,
+		path: Routes.USER_PROFILE,
+		page: UserProfile,
+		isRouteToBeProtected: true,
+	},
+	{
+		id: 11,
 		path: Routes.INFO,
 		page: InfoPage,
 		isRouteToBeProtected: true,
