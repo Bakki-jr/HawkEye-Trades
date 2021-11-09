@@ -1,13 +1,8 @@
-import { doc, setDoc } from "@firebase/firestore";
+import { doc, setDoc, query, orderBy } from "@firebase/firestore";
 import { db } from "./config";
 import { v4 as uuidv4 } from "uuid";
-import {
-	collection,
-	getDoc,
-	getDocs,
-} from "firebase/firestore";
+import { collection, getDoc, getDocs } from "firebase/firestore";
 import { IFetchTradeDocRequest } from "../../pages/trade-info/trade-info.page";
-
 
 export const saveTradeToTradesCollection = async (tradeDetails: any) => {
 	const uidV4 = uuidv4();
@@ -23,14 +18,18 @@ export const saveTradeToTradesCollection = async (tradeDetails: any) => {
 };
 
 export const getTrades = async (uid: string) => {
-	const fetchTradesQuerySnapshot = await getDocs(collection(db, `trades/${uid}/savedTrades`));
+	const collectionRef = collection(db, `trades/${uid}/savedTrades`);
+	const sortQuery = query(collectionRef, orderBy("createdOn", "desc"));
+	const fetchTradesQuerySnapshot = await getDocs(sortQuery);
 	const tradesInfo: {}[] = [];
-  fetchTradesQuerySnapshot.forEach((doc) => {
-     tradesInfo.push(doc.data());
+	fetchTradesQuerySnapshot.forEach((doc) => {
+		tradesInfo.push(doc.data());
 	});
-  return tradesInfo;
+	return tradesInfo;
 };
 
 export const getTradeDocById = async (docToFetch: IFetchTradeDocRequest) => {
-	return await getDoc(doc(db, `trades/${docToFetch.uid}/savedTrades/${docToFetch.id}`)).then(doc => doc.data());
+	return await getDoc(
+		doc(db, `trades/${docToFetch.uid}/savedTrades/${docToFetch.id}`)
+	).then((doc) => doc.data());
 };

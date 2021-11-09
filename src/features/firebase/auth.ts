@@ -50,6 +50,7 @@ export const saveUserToUsersCollection = async (user: User) => {
 		email: user.email,
 		uid: user.uid,
 		createdOn: new Date(),
+		photoURL: user.photoURL ? user.photoURL : "",
 	};
 	await setDoc(docRef, userData).then(() => {
 		console.log(`user added successfully => ${user.uid}`);

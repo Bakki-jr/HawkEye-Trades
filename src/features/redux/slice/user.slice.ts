@@ -1,12 +1,17 @@
 import { User } from "@firebase/auth";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchUserInfo, saveUserToUsersCollection } from "../../firebase/auth";
+import {
+	updateProfileInfo,
+	uploadProfileImageToStorage,
+} from "../../firebase/users";
 
 interface IFetchedUser {
 	name: string;
 	email: string;
 	uid: string | null;
 	createdOn?: Date;
+	photoURL?: string;
 	fetchedUserStatus: string;
 	fetchedUserError: any;
 	[key: string]: any;
@@ -17,7 +22,18 @@ interface IAddUser {
 	addUserToDbError: any;
 }
 
-type IUser = IFetchedUser & IAddUser;
+interface IUploadImage {
+	imagePath: string;
+	uploadImageStatus: string;
+	uploadImageError: null | string;
+}
+
+interface IUpdateProfile {
+	updateUserProfileStatus: string;
+	updateUserProfileError: null | string;
+}
+
+type IUser = IFetchedUser & IAddUser & IUploadImage & IUpdateProfile;
 
 const initialState: IUser = {
 	addUserToDbStatus: "",
@@ -28,10 +44,15 @@ const initialState: IUser = {
 	createdOn: undefined,
 	fetchedUserStatus: "",
 	fetchedUserError: null,
+	uploadImageStatus: "",
+	imagePath: "",
+	uploadImageError: null,
+	updateUserProfileStatus: "",
+	updateUserProfileError: null,
 };
 
 export const addUser = createAsyncThunk("user/addUser", async (user: User) => {
-  console.log(user, 'userData before adding');
+	console.log(user, "userData before adding");
 	return await saveUserToUsersCollection(user);
 });
 
@@ -42,12 +63,32 @@ export const fetchUser = createAsyncThunk(
 	}
 );
 
+export const uploadProfileImage = createAsyncThunk(
+	"user/uploadProfileImage",
+	async ({ file, uid }: { file: any; uid: string | null }) => {
+		return await uploadProfileImageToStorage(file, uid);
+	}
+);
+
+export const updateUserProfile = createAsyncThunk(
+	"user/updateUserProfile",
+	async (profileInfo: any) => {
+		return await updateProfileInfo(profileInfo);
+	}
+);
+
 export const userSlice = createSlice({
 	name: "user",
 	initialState,
 	reducers: {
-    resetUserData: () => initialState
-  },
+		resetUserData: () => initialState,
+		resetUploadImageStatus: (state) => {
+			state.uploadImageStatus = "";
+		},
+		resetUpdateUserProfileStatus: (state) => {
+			state.updateUserProfileStatus = "";
+		},
+	},
 	extraReducers: {
 		[addUser.pending.type]: (state: IAddUser) => {
 			state.addUserToDbStatus = "pending";
@@ -65,11 +106,15 @@ export const userSlice = createSlice({
 			state.fetchedUserStatus = "pending";
 			state.fetchedUserError = null;
 		},
-		[fetchUser.fulfilled.type]: (state: IFetchedUser, { payload : { name, email, uid, createdOn} }: any) => {
-      state.name = name;
-      state.email = email;
-      state.uid = uid;
-      state.createdOn = createdOn;
+		[fetchUser.fulfilled.type]: (
+			state: IFetchedUser,
+			{ payload: { name, email, uid, createdOn, photoURL } }: any
+		) => {
+			state.name = name;
+			state.email = email;
+			state.uid = uid;
+			state.createdOn = createdOn;
+			state.photoURL = photoURL;
 			state.fetchedUserStatus = "success";
 			state.fetchedUserError = null;
 		},
@@ -77,9 +122,38 @@ export const userSlice = createSlice({
 			state.fetchedUserStatus = "failed";
 			state.fetchedUserError = error;
 		},
+		[uploadProfileImage.pending.type]: (state: IUploadImage) => {
+			state.uploadImageStatus = "pending";
+		},
+		[uploadProfileImage.fulfilled.type]: (
+			state: IUploadImage,
+			{ payload }: any
+		) => {
+			state.uploadImageStatus = "success";
+			state.imagePath = payload;
+		},
+		[uploadProfileImage.rejected.type]: (state: IUploadImage, { error }) => {
+			state.uploadImageStatus = "failed";
+			state.uploadImageError = error;
+		},
+		[updateUserProfile.pending.type]: (state: IUpdateProfile) => {
+			state.updateUserProfileStatus = "pending";
+		},
+		[updateUserProfile.fulfilled.type]: (
+			state: IUpdateProfile,
+			{ payload }: any
+		) => {
+			state.updateUserProfileStatus = "success";
+			console.log("success payload", payload);
+		},
+		[updateUserProfile.rejected.type]: (state: IUpdateProfile, { error }) => {
+			state.updateUserProfileStatus = "failed";
+			state.updateUserProfileError = error;
+		},
 	},
 });
 
-export const { resetUserData } = userSlice.actions;
+export const { resetUserData, resetUploadImageStatus, resetUpdateUserProfileStatus } =
+	userSlice.actions;
 
 export default userSlice.reducer;

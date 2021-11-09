@@ -49,7 +49,7 @@ const Blog = () => {
 	const classes = useStyles();
 	const [blogPosts, setBlogPosts] = useState<any[] | null>(null);
 	const [cardSelectedId, setCardSelectedId] = useState<any | null>(null);
-	const [selectedBlogUserName, setSelectedBlogUserName] = useState<any | null>(
+	const [selectedBlogUserInfo, setSelectedBlogUserInfo] = useState<any | null>(
 		null
 	);
 	const fetchBlogsStatus = useAppSelector(
@@ -86,7 +86,7 @@ const Blog = () => {
 		blogs.forEach((blog) => {
 			users.forEach((user) => {
 				if (blog.uid === user.uid) {
-					BlogPosts.push({ ...blog, userName: user.name });
+					BlogPosts.push({ ...blog, name: user.name, photoURL: user.photoURL });
 				}
 			});
 		});
@@ -94,7 +94,7 @@ const Blog = () => {
 	};
 
 	const handleBlogClick = (item: any) => {
-		setSelectedBlogUserName(item.userName);
+		setSelectedBlogUserInfo({name: item.name, photoURL: item.photoURL});
 		setCardSelectedId(item.id);
 	};
 
@@ -158,7 +158,7 @@ const Blog = () => {
 									<BlogContent
 										theme={theme}
 										blogId={cardSelectedId}
-										blogPostedBy={selectedBlogUserName}
+										blogPostedBy={selectedBlogUserInfo}
 									/>
 								</Fragment>
 							) : (

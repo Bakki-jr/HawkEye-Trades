@@ -1,10 +1,14 @@
 import styled from "styled-components";
 import { Avatar } from "@mui/material";
 
-export const CustomAvatar = styled(Avatar)<any>`
+interface ICustomSize {
+	customsize: number | undefined;
+}
+
+export const CustomAvatar = styled(Avatar)<ICustomSize>`
 	width: ${(props) =>
-		props.customSize ? `${props.customSize}px !important` : "auto"};
+		props.customsize ? `${props.customsize}px !important` : "auto"};
 	height: ${(props) =>
-		props.customSize ? `${props.customSize}px !important` : "auto"};
-	font-size: ${(props) => (props.customSize ? "3rem !important" : "")};
+		props.customsize ? `${props.customsize}px !important` : "auto"};
+	font-size: ${(props) => (props.customsize ? "8rem !important" : "")};
 `;

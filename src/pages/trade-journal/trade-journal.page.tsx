@@ -476,7 +476,9 @@ const TradeJournal = () => {
 						<AddFieldArrayWrapper>
 							<AddAnotherPositionButton
 								variant="contained"
-								onClick={() => entryAppend({ quantity: 1, price: 0 })}
+								onClick={() =>
+									entryAppend({ date: new Date(), quantity: 1, price: 0 })
+								}
 								endIcon={<AddBoxIcon />}
 							>
 								Add Enrty Position
@@ -554,7 +556,9 @@ const TradeJournal = () => {
 						<AddFieldArrayWrapper>
 							<AddAnotherPositionButton
 								variant="contained"
-								onClick={() => exitAppend({ quantity: 1, price: 0 })}
+								onClick={() =>
+									exitAppend({ date: new Date(), quantity: 1, price: 0 })
+								}
 								endIcon={<AddBoxIcon />}
 							>
 								Add Exit Position

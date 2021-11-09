@@ -1,12 +1,21 @@
 import { CustomAvatar } from "./user-avatar.styles";
 
 interface IUserAvatar {
-	userName: string | null;
+	user: {
+		name: string;
+		photoURL: string | undefined;
+	};
 	customSize?: number;
 }
 
-const UserAvatar = ({ userName, customSize }: IUserAvatar) => {
-	return <CustomAvatar customSize={customSize}>{userName}</CustomAvatar>;
+const UserAvatar = ({ user, customSize }: IUserAvatar) => {
+	return (
+		<CustomAvatar
+			alt={user.name.toUpperCase()}
+			src={user.photoURL ? user.photoURL : " "}
+			customsize={customSize}
+		></CustomAvatar>
+	);
 };
 
 export default UserAvatar;

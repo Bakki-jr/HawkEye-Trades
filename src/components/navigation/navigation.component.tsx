@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { styled, Theme, CSSObject } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
@@ -23,10 +23,9 @@ import LabelImportantIcon from "@mui/icons-material/LabelImportant";
 import StickyNote2Icon from "@mui/icons-material/StickyNote2";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import InfoIcon from "@mui/icons-material/Info";
-import LogoutIcon from "@mui/icons-material/Logout";
+import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import { Box, useTheme } from "@mui/system";
 import { useAppSelector } from "../../features/redux/redux-toolkit-hooks/redux-toolkit-hooks";
-import { Avatar, colors } from "@mui/material";
 import useResetReduxState from "../../features/redux/reset-redux-state/reset-redux-state";
 import { signOutFromApp } from "../../features/firebase/auth";
 import DarkModeToggle from "react-dark-mode-toggle";
@@ -227,7 +226,9 @@ const NavBar = ({ darkMode, setDarkMode }: IUserThemePreference) => {
 					</Typography>
 					<Typography variant="subtitle2">{user.email}</Typography>
 				</Box>
-				<UserAvatar userName={user?.name ? user.name[0].toUpperCase() : "null"} />
+				<UserAvatar
+				user={{name: user.name, photoURL: user.photoURL}}
+				/>
 			</Toolbar>
 		</AppBar>
 	);
@@ -283,7 +284,7 @@ const NavBar = ({ darkMode, setDarkMode }: IUserThemePreference) => {
 				<div onClick={handleLogout}>
 					<ListItem button>
 						<ListItemIcon>
-							<LogoutIcon sx={{ color: colors.deepPurple.A700 }} />
+							<PowerSettingsNewIcon sx={{ color: "red" }} />
 						</ListItemIcon>
 						<ListItemText primary="Logout" />
 					</ListItem>

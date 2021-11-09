@@ -116,7 +116,7 @@ const SignIn = () => {
 				isNewUser && uid && dispatch(fetchUser(uid));
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [uid !== undefined]);
+	}, [uid]);
 
 	useEffect(() => {
 		isUserAdded === "success" && dispatch(fetchUser(uid));

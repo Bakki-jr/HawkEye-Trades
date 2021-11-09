@@ -22,7 +22,7 @@ const RoutePaths = ({ isUserLoggedIn, darkMode, setDarkMode }: IUserSetup) => {
 				{routeNavigation.map((route) =>
 					isUserLoggedIn && route.isRouteToBeProtected ? (
 						<Route key={route.id} path={route.path} exact>
-							<Box sx={{ display: "flex" }}>
+							<Box key={route.id} sx={{ display: "flex" }}>
 								<CssBaseline />
 								<NavBar {...{ darkMode, setDarkMode }} />
 								<Box

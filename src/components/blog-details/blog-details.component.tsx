@@ -47,7 +47,10 @@ import UserAvatar from "../user-avatar/user-avatar.component";
 interface IBlogContent {
 	theme: Theme;
 	blogId: string;
-	blogPostedBy: string;
+	blogPostedBy: {
+		name: string;
+		photoURL: string;
+	};
 }
 
 const useStyles: any = makeStyles({
@@ -101,7 +104,7 @@ const BlogContent = ({ theme, blogId, blogPostedBy }: IBlogContent) => {
 	const markup = draftToHtml(rawContentState, hashtagConfig);
 	const [comment, setComment] = useState("");
 
-	const getUserName = (uid: string) => {
+	const getUser = (uid: string) => {
 		const filteredUser = users.find((user) => {
 			if (user.uid === uid) {
 				return user;
@@ -109,7 +112,7 @@ const BlogContent = ({ theme, blogId, blogPostedBy }: IBlogContent) => {
 				return null;
 			}
 		});
-		return filteredUser.name;
+		return filteredUser;
 	};
 	const handleCommentSubmit = async (comment: string) => {
 		if (!comment) return;
@@ -129,8 +132,10 @@ const BlogContent = ({ theme, blogId, blogPostedBy }: IBlogContent) => {
 			{fetchedBlogStatus === "success" ? (
 				<Fragment>
 					<BlogHeader>
-						<UserAvatar userName={blogPostedBy[0].toUpperCase()} />
-						<SpecificBlogPublishedBy>{blogPostedBy}</SpecificBlogPublishedBy>
+						<UserAvatar user={blogPostedBy} />
+						<SpecificBlogPublishedBy>
+							{blogPostedBy.name}
+						</SpecificBlogPublishedBy>
 						<SpecificBlogPublishedOn color={theme.palette.primary.main}>
 							{fetchedBlog?.publishedOn &&
 								getDateFromTimeStamp(fetchedBlog?.publishedOn)}
@@ -150,13 +155,12 @@ const BlogContent = ({ theme, blogId, blogPostedBy }: IBlogContent) => {
 								<CommentsWrapper wrapperProps={{ theme, index }} key={index}>
 									<CommentHeader>
 										<UserAvatar
-											userName={
-												getUserName(item.uid)
-													? getUserName(item.uid)[0].toUpperCase()
-													: null
-											}
+											user={{
+												name: getUser(item.uid).name,
+												photoURL: getUser(item.uid).photoURL,
+											}}
 										/>
-										<CommentedBy>{getUserName(item.uid)}</CommentedBy>
+										<CommentedBy>{getUser(item.uid).name}</CommentedBy>
 										<CommentedOn color={theme.palette.primary.main}>
 											{item.createdAt ? getTimeFromNow(item.createdAt) : null}
 										</CommentedOn>

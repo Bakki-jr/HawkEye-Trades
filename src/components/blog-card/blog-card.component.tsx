@@ -1,5 +1,6 @@
 import { Typography } from "@mui/material";
 import { Theme } from "@mui/system";
+import { useMemo } from "react";
 import { getTimeFromNow } from "../../helpers/helper-date";
 import UserAvatar from "../user-avatar/user-avatar.component";
 import {
@@ -8,6 +9,7 @@ import {
 	BlogCardWrapperHighlighted,
 	BlogMiniDescription,
 	BlogTitle,
+	BlogPostedBy,
 	BoldTitle,
 } from "./blog-card.styles";
 
@@ -25,12 +27,18 @@ const BlogCard = ({
 }) => {
 	const Card =
 		item.id === cardSelectedId ? BlogCardWrapperHighlighted : BlogCardWrapper;
+	const Avatar = useMemo(
+		() => <UserAvatar user={{ name: item.name, photoURL: item.photoURL }} />,
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[]
+	);
 	return (
 		<Card theme={theme} onClick={(e) => handleClick(item)}>
 			<BlogCardUserInfo>
-				<UserAvatar userName={item.userName[0].toUpperCase()} />
+				{/* <UserAvatar user={{ name: item.name, photoURL: item.photoURL }} /> */}
+				{Avatar}
 				<BlogTitle>
-					<div>{item.userName}</div>
+					<BlogPostedBy>{item.name}</BlogPostedBy>
 					<BoldTitle>{item.title}</BoldTitle>
 				</BlogTitle>
 				<Typography variant="body2" color="primary">

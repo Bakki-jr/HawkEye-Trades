@@ -16,7 +16,10 @@ import {
 	useAppDispatch,
 	useAppSelector,
 } from "../../features/redux/redux-toolkit-hooks/redux-toolkit-hooks";
-import { resetSaveBlogStatus, SaveBlogContent } from "../../features/redux/slice/blog.slice";
+import {
+	resetSaveBlogStatus,
+	SaveBlogContent,
+} from "../../features/redux/slice/blog.slice";
 import Spinner from "../../components/spinner/spinner.component";
 import { isAPIFetchedSuccefully } from "../../helpers/helper-API-status";
 import Toast from "../../components/snackbar/snackbar.component";
@@ -54,7 +57,8 @@ const CreateBlog = () => {
 	const dispatch = useAppDispatch();
 	useEffect(() => {
 		setValue("blogEditor", editorData);
-	}, [editorData, setValue]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [editorData]);
 
 	const onBlogSubmit: SubmitHandler<IBlog> = async (data) => {
 		dispatch(SaveBlogContent({ ...data, uid: userUID }));
@@ -86,7 +90,7 @@ const CreateBlog = () => {
 								{...field}
 							/>
 						)}
-					/>{" "}
+					/>
 					<FromFieldErrorMessageContainer>
 						{errors.title?.message}
 					</FromFieldErrorMessageContainer>

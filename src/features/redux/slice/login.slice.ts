@@ -7,12 +7,6 @@ interface IEmaliLogin {
 	[key: string]: any;
 }
 
-// const initialState: IEmaliLogin = {
-// 	name: "",
-// 	email: "",
-// 	uid: "",
-// };
-
 interface IGoogleLogin {
 	status: string;
 	uid?: string;

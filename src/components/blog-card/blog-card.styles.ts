@@ -35,6 +35,7 @@ export const BlogTitle = styled.div`
 
 export const BoldTitle = styled.div`
 	font-weight: bold;
+  text-transform: capitalize;
 `;
 
 export const BlogMiniDescription = styled.div`
@@ -44,4 +45,8 @@ export const BlogMiniDescription = styled.div`
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 2;
+`;
+
+export const BlogPostedBy = styled.div`
+  text-transform: capitalize;
 `;

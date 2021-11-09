@@ -7,6 +7,8 @@ import {
 	getDocs,
 	updateDoc,
 	onSnapshot,
+  query,
+  orderBy,
 } from "firebase/firestore";
 
 export const saveToBlogsCollection = async (blogDetails: any) => {
@@ -24,7 +26,9 @@ export const saveToBlogsCollection = async (blogDetails: any) => {
 };
 
 export const getBlogsFromCollection = async () => {
-	const fetchBlogsSnapshot = await getDocs(collection(db, "blogs"));
+  const collectionRef = collection(db, "blogs");
+	const sortQuery = query(collectionRef, orderBy("publishedOn", "desc"));
+	const fetchBlogsSnapshot = await getDocs(sortQuery);
 	const blogs: {}[] = [];
 	fetchBlogsSnapshot.forEach((doc) => {
 		blogs.push(doc.data());

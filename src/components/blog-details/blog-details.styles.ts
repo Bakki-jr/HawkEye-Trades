@@ -32,6 +32,7 @@ export const BlogHeader = styled.div`
 export const SpecificBlogPublishedBy = styled.div`
 	flex-grow: 1;
 	margin-inline-start: 10px;
+  text-transform: capitalize;
 `;
 
 export const SpecificBlogPublishedOn = styled.div`
@@ -91,6 +92,7 @@ export const CommentHeader = styled.div`
 export const CommentedBy = styled.div`
 	flex-grow: 1;
 	margin-inline-start: 10px;
+  text-transform: capitalize;
 `;
 
 export const CommentedOn = styled.div`
