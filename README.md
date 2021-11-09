@@ -86,5 +86,5 @@ Web Application to jot down, analyze and create blog posts about your trades....
 ![update-profile](https://user-images.githubusercontent.com/54638348/140982983-32d790fd-1c79-40cf-a300-b434287528a7.png)
 
 
-Thanks for Going through ReadMe file ☮️
+Thanks for going through README file ☮️
 
