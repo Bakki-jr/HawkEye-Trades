@@ -1,6 +1,6 @@
 # # HawkEye-Trades: 🦅
 
-Web Application to jot down, analyse and create blog posts about your trades..... ^-^
+Web Application to jot down, analyze and create blog posts about your trades..... ^-^
 
 # Getting Started:
 - This Application is build upon react library
