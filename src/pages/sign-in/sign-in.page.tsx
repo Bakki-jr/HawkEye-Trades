@@ -11,7 +11,7 @@ import {
 	TeddyWrapper,
 } from "./sign-in.styles";
 import { Routes } from "../../constants/route-paths";
-import { isUserExists } from "../../features/firebase/auth";
+import { isUserExists, resetPassword } from "../../features/firebase/auth";
 import {
 	useAppDispatch,
 	useAppSelector,
@@ -36,6 +36,10 @@ import {
 	useTreeRiveInputChange,
 } from "../../hooks/use-tree-rive";
 import TreeRiveComponent from "../../components/tree-rive/tree-rive.component";
+import {
+	EMAIL_REGEX_PATTERN,
+	AppConstantMessages,
+} from "../../constants/app-constans";
 
 export interface ISignInForm {
 	email: string;
@@ -134,7 +138,7 @@ const SignIn = () => {
 		isUserDataFetched === "success" &&
 			userSignInStatus === "success" &&
 			toast({
-				message: `Welcome back ${loggedInUserName}`,
+				message: `${AppConstantMessages.SIGNED_IN} ${loggedInUserName}`,
 			});
 
 		if (userSignInStatus === "success") {
@@ -161,6 +165,24 @@ const SignIn = () => {
 			inputTypeRef.current = name;
 			teddyRiveInstance && teddyRiveInstance.play(["hands_up"]);
 		}
+	};
+
+	const handleResetPassword = () => {
+		const regex = new RegExp(EMAIL_REGEX_PATTERN);
+		const isValidEmail = regex.test(signInData.email);
+		!isValidEmail &&
+			toast({
+				message: AppConstantMessages.ENTER_VALID_EMAIL,
+				variant: "error",
+			});
+
+		isValidEmail &&
+			resetPassword(signInData.email).then((_) => {
+				toast({
+					message: `${AppConstantMessages.EMAIL_SENT_TO_MAIL} ${signInData.email}.`,
+					variant: "warning",
+				});
+			});
 	};
 
 	const handleKeypress = (event: any) => {
@@ -208,7 +230,13 @@ const SignIn = () => {
 						handleChange={handleChange}
 						handleKeyPress={handleKeypress}
 					></TextInput>
-					<Typography variant="body2" color="primary" align="right">
+					<Typography
+						onClick={() => handleResetPassword()}
+						sx={{ cursor: "pointer" }}
+						variant="body2"
+						color="primary"
+						align="right"
+					>
 						Forgot Password!
 					</Typography>
 					<Button

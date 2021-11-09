@@ -8,6 +8,7 @@ import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
 	UserCredential,
+	sendPasswordResetEmail,
 } from "firebase/auth";
 import { DocumentData, DocumentSnapshot } from "firebase/firestore";
 import { ISignInForm } from "../../pages/sign-in/sign-in.page";
@@ -59,6 +60,10 @@ export const fetchUserInfo = async (uid: string) => {
 	return await getDoc(docRef).then((res: DocumentSnapshot<DocumentData>) =>
 		res.data()
 	);
+};
+
+export const resetPassword = async (email: string) => {
+	await sendPasswordResetEmail(authInstance, email);
 };
 
 export const signOutFromApp = async () => {
