@@ -39,7 +39,6 @@ export const googleSignInWithPopup = async () => {
 export const isUserExists = async (uid: string) => {
 	const docRef = doc(db, "users", uid);
 	const docSnap = await getDoc(docRef);
-	console.log(docSnap.exists(), "docSnap.exists()");
 	return docSnap.exists();
 };
 
@@ -52,9 +51,7 @@ export const saveUserToUsersCollection = async (user: User) => {
 		createdOn: new Date(),
 		photoURL: user.photoURL ? user.photoURL : "",
 	};
-	await setDoc(docRef, userData).then(() => {
-		console.log(`user added successfully => ${user.uid}`);
-	});
+	await setDoc(docRef, userData);
 };
 
 export const fetchUserInfo = async (uid: string) => {

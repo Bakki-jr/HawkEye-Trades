@@ -58,7 +58,6 @@ const TradeHistory: () => JSX.Element = () => {
 
 	const goToPostYourTrade = () => history.push(Routes.TRADE_JOURNAL);
 	const goToTradeDetails = (id: string) => {
-		console.log(id);
 		history.push(`/trade-history/${id}`);
 	};
 

@@ -20,7 +20,6 @@ const InfoPage = () => {
 	const theme = useTheme();
 
 	const handleModal = (library: any) => {
-		console.log("modal click");
 		setModalOpen(true);
 		setModalprops(library);
 	};

@@ -30,15 +30,12 @@ export enum Routes {
 	USER_PROFILE = "/update-user-profile",
 }
 
-interface IUserLoggedIn {
-	isUserLoggedIn: boolean;
-}
 export interface IUserThemePreference {
 	darkMode: boolean;
 	setDarkMode: any;
 }
 
-export interface IUserSetup extends IUserLoggedIn, IUserThemePreference {}
+export interface IUserSetup extends IUserThemePreference {}
 
 export const routeNavigation: IRouteNavigation[] = [
 	{

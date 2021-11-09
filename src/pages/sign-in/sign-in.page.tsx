@@ -18,6 +18,7 @@ import {
 } from "../../features/redux/redux-toolkit-hooks/redux-toolkit-hooks";
 import { addUser, fetchUser } from "../../features/redux/slice/user.slice";
 import {
+	setUserStatus,
 	signInWithEmail,
 	signInWithGoogleAuth,
 } from "../../features/redux/slice/login.slice";
@@ -110,21 +111,22 @@ const SignIn = () => {
 	}, [uid]);
 
 	useEffect(() => {
-		uid &&
-			validateUser().then((isNewUser) => {
-				!isNewUser && dispatch(addUser(user));
-				isNewUser && uid && dispatch(fetchUser(uid));
+		userSignInStatus === "success" &&
+			validateUser().then((isUserExists) => {
+				!isUserExists && dispatch(addUser(user));
+				isUserExists &&
+					uid &&
+					isUserAdded === "success" &&
+					dispatch(fetchUser(uid));
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [uid]);
+	}, [userSignInStatus, isUserAdded]);
 
 	useEffect(() => {
-		isUserAdded === "success" && dispatch(fetchUser(uid));
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isUserAdded]);
-
-	useEffect(() => {
-		isUserDataFetched === "success" && history.push(Routes.BLOG);
+		if (isUserDataFetched === "success") {
+			dispatch(setUserStatus(true));
+			history.push(Routes.BLOG);
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isUserDataFetched]);
 

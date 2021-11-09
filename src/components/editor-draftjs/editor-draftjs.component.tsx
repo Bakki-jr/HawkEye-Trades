@@ -16,7 +16,6 @@ export const DraftJSEditor = ({ setEditorData }: any) => {
 			"https://api.imgur.com/3/image",
 			file
 		).then((data) => {
-			console.log(data);
 			return data;
 		});
 		return imageResponse;

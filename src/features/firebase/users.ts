@@ -20,7 +20,6 @@ export const uploadProfileImageToStorage = async (
 ) => {
 	const storageRef = ref(storage, `user-profile/${uid}/${file.name}`);
 	const imageRef = await uploadBytes(storageRef, file);
-	console.log(imageRef, "imageRef");
 	return await imageRef.ref.fullPath;
 };
 

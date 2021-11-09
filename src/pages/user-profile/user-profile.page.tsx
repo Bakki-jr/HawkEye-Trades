@@ -25,6 +25,7 @@ import {
 } from "../../features/redux/slice/user.slice";
 import { isAPIFetchedSuccefully } from "../../helpers/helper-API-status";
 import { useEffect } from "react";
+import useToast from "../../hooks/use-toast";
 
 interface IUserProfole {
 	name: string;
@@ -47,9 +48,14 @@ const UserProfile = () => {
 	const updateProfileStatus = useAppSelector(
 		(state) => state.user.updateUserProfileStatus
 	);
+	const fetchUserStatus = useAppSelector(
+		(state) => state.user.fetchedUserStatus
+	);
 	const spinnerForImageUplaod = isAPIFetchedSuccefully(uploadImageStatus);
 	const spinnerForProfileUpdate = isAPIFetchedSuccefully(updateProfileStatus);
+	const spinnerForFetchUser = isAPIFetchedSuccefully(fetchUserStatus);
 	const dispatch = useAppDispatch();
+	const toast = useToast();
 	const {
 		control,
 		register,
@@ -59,7 +65,6 @@ const UserProfile = () => {
 	} = useForm<IUserProfole>({ resolver: yupResolver(schema) });
 
 	const updateUserInfo: SubmitHandler<IUserProfole> = async (data) => {
-		console.log(data, "profile update info");
 		const uploadImageParams = {
 			file: data.profileURL.length > 0 ? data.profileURL[0] : "",
 			uid: userInfo.uid,
@@ -99,7 +104,9 @@ const UserProfile = () => {
 	useEffect(() => {
 		updateProfileStatus === "success" &&
 			userInfo.uid &&
-			dispatch(fetchUser(userInfo.uid));
+			dispatch(fetchUser(userInfo.uid)).then((_) => {
+				toast({ message: "Profile Updated Successfully !!!" });
+			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [updateProfileStatus]);
 
@@ -154,7 +161,11 @@ const UserProfile = () => {
 							color="primary"
 							type="submit"
 							endIcon="send"
-							loading={spinnerForImageUplaod || spinnerForProfileUpdate}
+							loading={
+								spinnerForImageUplaod ||
+								spinnerForProfileUpdate ||
+								spinnerForFetchUser
+							}
 						>
 							Update Profile
 						</LoadingButton>

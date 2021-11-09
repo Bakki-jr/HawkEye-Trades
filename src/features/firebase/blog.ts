@@ -7,8 +7,8 @@ import {
 	getDocs,
 	updateDoc,
 	onSnapshot,
-  query,
-  orderBy,
+	query,
+	orderBy,
 } from "firebase/firestore";
 
 export const saveToBlogsCollection = async (blogDetails: any) => {
@@ -20,13 +20,11 @@ export const saveToBlogsCollection = async (blogDetails: any) => {
 		comments: [],
 		publishedOn: new Date(),
 	};
-	await setDoc(docRef, document).then(() => {
-		console.log(`Blog saved successfully => ${uidV4}`);
-	});
+	await setDoc(docRef, document);
 };
 
 export const getBlogsFromCollection = async () => {
-  const collectionRef = collection(db, "blogs");
+	const collectionRef = collection(db, "blogs");
 	const sortQuery = query(collectionRef, orderBy("publishedOn", "desc"));
 	const fetchBlogsSnapshot = await getDocs(sortQuery);
 	const blogs: {}[] = [];
@@ -51,7 +49,6 @@ export const blogSnapshot = onSnapshot(collection(db, "blogs"), (blogs) => {
 	}
 });
 
-
-export const getBlogById = async (blogId : string) => {
-	return await getDoc(doc(db, `blogs/${blogId}`)).then(doc => doc.data());
+export const getBlogById = async (blogId: string) => {
+	return await getDoc(doc(db, `blogs/${blogId}`)).then((doc) => doc.data());
 };

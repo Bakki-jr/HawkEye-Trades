@@ -8,6 +8,7 @@ import { Box } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import NavBar, { DrawerHeader } from "../navigation/navigation.component";
 import PageNotFound from "../page-not-found/page-not-found.component";
+import { useAppSelector } from "../../features/redux/redux-toolkit-hooks/redux-toolkit-hooks";
 
 interface IProtectedRoute {
 	[x: string]: any;
@@ -15,7 +16,8 @@ interface IProtectedRoute {
 	isRouteToBeProtected: boolean;
 }
 
-const RoutePaths = ({ isUserLoggedIn, darkMode, setDarkMode }: IUserSetup) => {
+const RoutePaths = ({ darkMode, setDarkMode }: IUserSetup) => {
+	const isUserLoggedIn = useAppSelector((state) => state.login.isLoggedIn);
 	return (
 		<BrowserRouter>
 			<Switch>

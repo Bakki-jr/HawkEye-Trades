@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IStatus } from "../../../interface/interface";
 import {
-  getBlogById,
+	getBlogById,
 	getBlogsFromCollection,
 	saveToBlogsCollection,
 	updateSpecificBlogComments,
@@ -17,11 +17,11 @@ interface IBlog {
 		dbError: any;
 		blogs: any[];
 	};
-  fetchBlogById: {
-    status: IStatus;
+	fetchBlogById: {
+		status: IStatus;
 		dbError: any;
 		blog: any;
-  }
+	};
 	updateComments: {
 		status: string;
 		dbError: any;
@@ -90,8 +90,6 @@ export const blogSlice = createSlice({
 		},
 		updateBlog: {
 			reducer: (state, action: PayloadAction<any>) => {
-        console.log(action, "update action");
-        console.log(action.type, "update action");
 				state.fetchBlogById.blog = action.payload[0];
 			},
 			prepare: (state) => ({
@@ -132,7 +130,6 @@ export const blogSlice = createSlice({
 		[fetchBlogById.fulfilled.type]: (state: IBlog, { payload }: any) => {
 			state.fetchBlogById.status = "success";
 			state.fetchBlogById.dbError = null;
-      console.log(payload, "idPayload")
 			state.fetchBlogById.blog = payload;
 		},
 		[fetchBlogById.rejected.type]: (state: IBlog, { error }) => {

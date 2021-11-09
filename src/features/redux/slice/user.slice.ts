@@ -52,7 +52,6 @@ const initialState: IUser = {
 };
 
 export const addUser = createAsyncThunk("user/addUser", async (user: User) => {
-	console.log(user, "userData before adding");
 	return await saveUserToUsersCollection(user);
 });
 
@@ -139,12 +138,8 @@ export const userSlice = createSlice({
 		[updateUserProfile.pending.type]: (state: IUpdateProfile) => {
 			state.updateUserProfileStatus = "pending";
 		},
-		[updateUserProfile.fulfilled.type]: (
-			state: IUpdateProfile,
-			{ payload }: any
-		) => {
+		[updateUserProfile.fulfilled.type]: (state: IUpdateProfile) => {
 			state.updateUserProfileStatus = "success";
-			console.log("success payload", payload);
 		},
 		[updateUserProfile.rejected.type]: (state: IUpdateProfile, { error }) => {
 			state.updateUserProfileStatus = "failed";
@@ -153,7 +148,10 @@ export const userSlice = createSlice({
 	},
 });
 
-export const { resetUserData, resetUploadImageStatus, resetUpdateUserProfileStatus } =
-	userSlice.actions;
+export const {
+	resetUserData,
+	resetUploadImageStatus,
+	resetUpdateUserProfileStatus,
+} = userSlice.actions;
 
 export default userSlice.reducer;

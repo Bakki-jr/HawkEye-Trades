@@ -12,9 +12,7 @@ export const saveTradeToTradesCollection = async (tradeDetails: any) => {
 		id: uidV4,
 		createdOn: new Date(),
 	};
-	await setDoc(docRef, tradeInfo).then(() => {
-		console.log(`Trade saved successfully => ${tradeDetails.uid}`);
-	});
+	await setDoc(docRef, tradeInfo);
 };
 
 export const getTrades = async (uid: string) => {

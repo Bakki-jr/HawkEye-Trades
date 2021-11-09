@@ -242,7 +242,6 @@ const TradeJournal = () => {
 	) => (fieldArray.length !== 1 ? remove(index) : alert("cant remove"));
 
 	const onTradeJournalSubmit: SubmitHandler<ITradeJournal> = async (data) => {
-		console.log(data, "TJ Data");
 		const tradeJournalData = {
 			...data,
 			uid: userUID,

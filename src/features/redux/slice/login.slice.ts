@@ -1,14 +1,16 @@
 import { User, UserCredential } from "@firebase/auth";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ISignInForm } from "../../../pages/sign-in/sign-in.page";
 import { googleSignInWithPopup, loginWithEmail } from "../../firebase/auth";
 
 interface IEmaliLogin {
 	[key: string]: any;
+	isLoggedIn: boolean | null;
 }
 
 interface IGoogleLogin {
 	status: string;
+	isLoggedIn: boolean | null;
 	uid?: string;
 	user?: User;
 	error?: any;
@@ -16,6 +18,7 @@ interface IGoogleLogin {
 
 const initialState: IGoogleLogin | IEmaliLogin = {
 	status: "",
+	isLoggedIn: null,
 };
 
 export const signInWithGoogleAuth = createAsyncThunk<UserCredential, void, {}>(
@@ -38,6 +41,14 @@ export const authSlice = createSlice({
 	initialState,
 	reducers: {
 		resetLoginData: () => initialState,
+		setUserStatus: {
+			reducer: (state, action: PayloadAction<any>) => {
+				state.isLoggedIn = action.payload;
+			},
+			prepare: (state) => ({
+				payload: state,
+			}),
+		},
 	},
 	extraReducers: {
 		[signInWithGoogleAuth.pending.type]: (state) => {
@@ -74,6 +85,6 @@ export const authSlice = createSlice({
 	},
 });
 
-export const { resetLoginData } = authSlice.actions;
+export const { resetLoginData, setUserStatus } = authSlice.actions;
 
 export default authSlice.reducer;
