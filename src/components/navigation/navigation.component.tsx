@@ -23,7 +23,7 @@ import LabelImportantIcon from "@mui/icons-material/LabelImportant";
 import StickyNote2Icon from "@mui/icons-material/StickyNote2";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import InfoIcon from "@mui/icons-material/Info";
-import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
+import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import { Box, useTheme } from "@mui/system";
 import { useAppSelector } from "../../features/redux/redux-toolkit-hooks/redux-toolkit-hooks";
 import useResetReduxState from "../../features/redux/reset-redux-state/reset-redux-state";
@@ -31,6 +31,7 @@ import { signOutFromApp } from "../../features/firebase/auth";
 import DarkModeToggle from "react-dark-mode-toggle";
 import useToast from "../../hooks/use-toast";
 import UserAvatar from "../user-avatar/user-avatar.component";
+import { AppConstantMessages } from "../../constants/app-constans";
 
 const drawerWidth = 240;
 
@@ -128,7 +129,7 @@ const NavBar = ({ darkMode, setDarkMode }: IUserThemePreference) => {
 				signOutFromApp().then(
 					(res) =>
 						res &&
-						toast({ message: "Logged Out Successfully !!", variant: "info" })
+						toast({ message: AppConstantMessages.LOGGED_OUT, variant: "info" })
 				)
 		);
 	};
@@ -226,9 +227,7 @@ const NavBar = ({ darkMode, setDarkMode }: IUserThemePreference) => {
 					</Typography>
 					<Typography variant="subtitle2">{user.email}</Typography>
 				</Box>
-				<UserAvatar
-				user={{name: user.name, photoURL: user.photoURL}}
-				/>
+				<UserAvatar user={{ name: user.name, photoURL: user.photoURL }} />
 			</Toolbar>
 		</AppBar>
 	);

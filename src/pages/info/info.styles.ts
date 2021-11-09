@@ -12,6 +12,7 @@ import draftjs from "../../assets/images/app-info/draftjs.jpg";
 import momentjs from "../../assets/images/app-info/momentjs.png";
 import uuid from "../../assets/images/app-info/uuid.png";
 import rive from "../../assets/images/app-info/rive.png";
+import imgur from "../../assets/images/app-info/imgur.png";
 
 export const librariesUsed = [
 	{
@@ -73,6 +74,11 @@ export const librariesUsed = [
 		title: "Rive",
 		image: rive,
 		info: "Rive is a real-time interactive design and animation tool. It has a collaborative editor to create motion graphics that respond to different states and user inputs. Then load your animations into apps, games, and websites with our lightweight open-source runtimes.",
+	},
+	{
+		title: "Imgur",
+		image: imgur,
+		info: "Imgur is an American online image sharing and image hosting service with a focus on social gossip that was founded by Alan Schaaf in 2009. The service has hosted viral images and memes, particularly those posted on Reddit.",
 	},
 ];
 

@@ -26,6 +26,7 @@ import {
 import { isAPIFetchedSuccefully } from "../../helpers/helper-API-status";
 import { useEffect } from "react";
 import useToast from "../../hooks/use-toast";
+import { AppConstantMessages } from "../../constants/app-constans";
 
 interface IUserProfole {
 	name: string;
@@ -105,7 +106,7 @@ const UserProfile = () => {
 		updateProfileStatus === "success" &&
 			userInfo.uid &&
 			dispatch(fetchUser(userInfo.uid)).then((_) => {
-				toast({ message: "Profile Updated Successfully !!!" });
+				toast({ message: AppConstantMessages.UPDATED_USER_PROFILE });
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [updateProfileStatus]);
