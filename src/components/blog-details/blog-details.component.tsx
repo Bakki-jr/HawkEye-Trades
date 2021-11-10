@@ -24,6 +24,7 @@ import {
 	CommentedOn,
 	UserComment,
 	BlogCommentsTitle,
+	BlogCommentsWrapper,
 } from "./blog-details.styles";
 import LoadingButton from "../../components/form-input-fields/button.component";
 import { makeStyles } from "@mui/styles";
@@ -37,7 +38,7 @@ import {
 	updateBlogComments,
 	updateBlog,
 } from "../../features/redux/slice/blog.slice";
-import { isAPIFetchedSuccefully } from "../../helpers/helper-API-status";
+import { isSpinnerReq } from "../../helpers/helper-API-status";
 import { onSnapshot } from "@firebase/firestore";
 import { db } from "../../features/firebase/config";
 import { doc } from "firebase/firestore";
@@ -93,8 +94,8 @@ const BlogContent = ({ theme, blogId, blogPostedBy }: IBlogContent) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [fetchUpdateCommentStatus === "success"]);
 
-	const isBlogFetched = isAPIFetchedSuccefully(fetchedBlogStatus);
-	const isSpinnerRequired = isAPIFetchedSuccefully(updateCommentStatus);
+	const isBlogFetched = isSpinnerReq(fetchedBlogStatus);
+	const isSpinnerRequired = isSpinnerReq(updateCommentStatus);
 	const dispatch = useAppDispatch();
 	const rawContentState = fetchedBlog?.blogEditor;
 	const hashtagConfig = {
@@ -150,25 +151,27 @@ const BlogContent = ({ theme, blogId, blogPostedBy }: IBlogContent) => {
 						<BlogCommentsTitle>Comments:</BlogCommentsTitle>
 					) : null}
 					<BlogComments theme={theme}>
-						{fetchedBlog?.comments?.map((item: any, index: number) => {
-							return (
-								<CommentsWrapper wrapperProps={{ theme, index }} key={index}>
-									<CommentHeader>
-										<UserAvatar
-											user={{
-												name: getUser(item.uid).name,
-												photoURL: getUser(item.uid).photoURL,
-											}}
-										/>
-										<CommentedBy>{getUser(item.uid).name}</CommentedBy>
-										<CommentedOn color={theme.palette.primary.main}>
-											{item.createdAt ? getTimeFromNow(item.createdAt) : null}
-										</CommentedOn>
-									</CommentHeader>
-									<UserComment>{item.comment}</UserComment>
-								</CommentsWrapper>
-							);
-						})}
+						<BlogCommentsWrapper theme={theme}>
+							{fetchedBlog?.comments?.map((item: any, index: number) => {
+								return (
+									<CommentsWrapper key={index}>
+										<CommentHeader>
+											<UserAvatar
+												user={{
+													name: getUser(item.uid).name,
+													photoURL: getUser(item.uid).photoURL,
+												}}
+											/>
+											<CommentedBy>{getUser(item.uid).name}</CommentedBy>
+											<CommentedOn color={theme.palette.primary.main}>
+												{item.createdAt ? getTimeFromNow(item.createdAt) : null}
+											</CommentedOn>
+										</CommentHeader>
+										<UserComment>{item.comment}</UserComment>
+									</CommentsWrapper>
+								);
+							})}
+						</BlogCommentsWrapper>
 					</BlogComments>
 					<BlogCommentInput>
 						<div></div>

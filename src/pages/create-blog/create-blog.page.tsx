@@ -21,7 +21,7 @@ import {
 	SaveBlogContent,
 } from "../../features/redux/slice/blog.slice";
 import Spinner from "../../components/spinner/spinner.component";
-import { isAPIFetchedSuccefully } from "../../helpers/helper-API-status";
+import { isSpinnerReq } from "../../helpers/helper-API-status";
 import Toast from "../../components/snackbar/snackbar.component";
 import { useHistory } from "react-router";
 import { Routes } from "../../constants/route-paths";
@@ -53,7 +53,7 @@ const CreateBlog = () => {
 	const [editorData, setEditorData] = useState();
 	const userUID = useAppSelector((state) => state.user.uid);
 	const saveBlogStatus = useAppSelector((state) => state.blog.saveBlog.status);
-	const isSpinnerRequired = isAPIFetchedSuccefully(saveBlogStatus);
+	const isSpinnerRequired = isSpinnerReq(saveBlogStatus);
 	const dispatch = useAppDispatch();
 	useEffect(() => {
 		setValue("blogEditor", editorData);

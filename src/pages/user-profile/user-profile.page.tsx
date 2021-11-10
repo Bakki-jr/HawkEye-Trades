@@ -18,12 +18,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import {
 	fetchUser,
-	resetUpdateUserProfileStatus,
-	resetUploadImageStatus,
 	updateUserProfile,
 	uploadProfileImage,
 } from "../../features/redux/slice/user.slice";
-import { isAPIFetchedSuccefully } from "../../helpers/helper-API-status";
+import { isSpinnerReq } from "../../helpers/helper-API-status";
 import { useEffect } from "react";
 import useToast from "../../hooks/use-toast";
 import { AppConstantMessages } from "../../constants/app-constans";
@@ -52,9 +50,9 @@ const UserProfile = () => {
 	const fetchUserStatus = useAppSelector(
 		(state) => state.user.fetchedUserStatus
 	);
-	const spinnerForImageUplaod = isAPIFetchedSuccefully(uploadImageStatus);
-	const spinnerForProfileUpdate = isAPIFetchedSuccefully(updateProfileStatus);
-	const spinnerForFetchUser = isAPIFetchedSuccefully(fetchUserStatus);
+	const spinnerForImageUplaod = isSpinnerReq(uploadImageStatus);
+	const spinnerForProfileUpdate = isSpinnerReq(updateProfileStatus);
+	const spinnerForFetchUser = isSpinnerReq(fetchUserStatus);
 	const dispatch = useAppDispatch();
 	const toast = useToast();
 	const {
@@ -84,7 +82,6 @@ const UserProfile = () => {
 
 	useEffect(() => {
 		if (uploadImageStatus === "success") {
-			dispatch(resetUploadImageStatus());
 			const profileInfo = {
 				uid: userInfo.uid,
 				displayName: getValues("name"),
@@ -96,16 +93,13 @@ const UserProfile = () => {
 			};
 			dispatch(updateUserProfile(profileInfo));
 		}
-		return () => {
-			dispatch(resetUpdateUserProfileStatus());
-		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [uploadImageStatus]);
 
 	useEffect(() => {
 		updateProfileStatus === "success" &&
 			userInfo.uid &&
-			dispatch(fetchUser(userInfo.uid)).then((_) => {
+			dispatch(fetchUser(userInfo.uid)).then(() => {
 				toast({ message: AppConstantMessages.UPDATED_USER_PROFILE });
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps

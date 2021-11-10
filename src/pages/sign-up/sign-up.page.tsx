@@ -19,7 +19,7 @@ import {
 import { signUpWithEmail } from "../../features/redux/slice/sign-up.slice";
 import { addUser, fetchUser } from "../../features/redux/slice/user.slice";
 import { User } from "@firebase/auth";
-import { isAPIFetchedSuccefully } from "../../helpers/helper-API-status";
+import { isSpinnerReq } from "../../helpers/helper-API-status";
 import useToast from "../../hooks/use-toast";
 
 export interface ISignUpForm {
@@ -47,7 +47,7 @@ const SignUp = () => {
 	const isUserDataFetched = useAppSelector(
 		(state) => state.user.fetchedUserStatus
 	);
-	const isSpinnerRequired = isAPIFetchedSuccefully(isUserSignedUp);
+	const isSpinnerRequired = isSpinnerReq(isUserSignedUp);
 
 	useEffect(() => {
 		isUserSignedUp === "success" &&

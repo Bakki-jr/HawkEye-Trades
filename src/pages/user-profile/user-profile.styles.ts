@@ -1,13 +1,13 @@
 import styled from "styled-components";
 
 export const UserProfileContainer = styled.div`
-	padding: 20px;
+	padding: 10px;
 `;
 
 export const UserProfileWrapper = styled.div`
 	max-width: 600px;
-	margin: 20px auto;
-	padding: 25px;
+	margin: 10px auto;
+	padding: 20px;
 	display: flex;
 	align-items: center;
 	justify-content: center;

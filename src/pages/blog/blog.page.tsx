@@ -29,7 +29,7 @@ import {
 	resetFetchBlogsStatus,
 } from "../../features/redux/slice/blog.slice";
 import Spinner from "../../components/spinner/spinner.component";
-import { isAPIFetchedSuccefully } from "../../helpers/helper-API-status";
+import { isSpinnerReq } from "../../helpers/helper-API-status";
 import { fetchUsers } from "../../features/redux/slice/app-users.slice";
 import BlogContent from "../../components/blog-details/blog-details.component";
 
@@ -61,8 +61,8 @@ const Blog = () => {
 	const blogs = useAppSelector((state) => state.blog.fetchBlogs.blogs);
 	const users = useAppSelector((state) => state.usersInfo.users);
 	const isSpinnerRequired =
-		isAPIFetchedSuccefully(fetchBlogsStatus) ||
-		isAPIFetchedSuccefully(fetchUsersInfoStatus);
+		isSpinnerReq(fetchBlogsStatus) ||
+		isSpinnerReq(fetchUsersInfoStatus);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {

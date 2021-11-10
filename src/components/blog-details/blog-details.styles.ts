@@ -1,14 +1,4 @@
-import { Theme } from "@mui/system";
 import styled from "styled-components";
-
-interface ICommentsWrapperProps {
-	theme: Theme;
-	index: number;
-}
-
-interface IComponentWrapper {
-	wrapperProps: ICommentsWrapperProps;
-}
 
 export const SpecificBlogContentWrapper = styled.div`
 	background-color: ${(props) =>
@@ -32,7 +22,7 @@ export const BlogHeader = styled.div`
 export const SpecificBlogPublishedBy = styled.div`
 	flex-grow: 1;
 	margin-inline-start: 10px;
-  text-transform: capitalize;
+	text-transform: capitalize;
 `;
 
 export const SpecificBlogPublishedOn = styled.div`
@@ -66,20 +56,11 @@ export const BlogCommentsTitle = styled.div`
 	margin-block: 10px;
 `;
 
-export const CommentsWrapper = styled.div<IComponentWrapper>`
+export const CommentsWrapper = styled.div`
 	max-width: 500px;
 	margin: 0 auto;
 	padding: 10px;
 	margin-block: 5px;
-	border-radius: 10px;
-	background-color: ${({ wrapperProps: { theme, index } }) =>
-		theme.palette.mode === "dark" && index % 2 === 0
-			? "#ffffff80"
-			: theme.palette.mode === "dark" && index % 2 !== 0
-			? "#ffffff20"
-			: theme.palette.mode === "light" && index % 2 === 0
-			? "#00000030"
-			: "#00000010"};
 `;
 
 export const CommentHeader = styled.div`
@@ -92,7 +73,7 @@ export const CommentHeader = styled.div`
 export const CommentedBy = styled.div`
 	flex-grow: 1;
 	margin-inline-start: 10px;
-  text-transform: capitalize;
+	text-transform: capitalize;
 `;
 
 export const CommentedOn = styled.div`
@@ -105,20 +86,30 @@ export const UserComment = styled.div`
 
 export const BlogComments = styled.div`
 	max-height: 500px;
-  max-width: 500px;
-  padding-inline: 10px 15px;
-  margin-inline: auto;
+	max-width: 500px;
+	padding-inline: 10px 15px;
+	margin-inline: auto;
 	overflow-y: auto;
 	::-webkit-scrollbar {
-    width: 5px;
+		width: 5px;
 	}
 	::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px ${(props) => props.theme.palette.primary.main};
+		box-shadow: inset 0 0 5px ${(props) => props.theme.palette.primary.main};
 		border-radius: 10px;
 	}
 	::-webkit-scrollbar-thumb {
 		background: ${(props) => props.theme.palette.primary.main};
 		border-radius: 10px;
+	}
+`;
+
+export const BlogCommentsWrapper = styled.div`
+	background-color: ${(props) =>
+		props.theme.palette.mode === "dark" ? "darkslategrey" : "#1976d225"};
+	border-radius: 10px;
+	padding-inline: 10px;
+	> div:not(:last-child) {
+		border-bottom: 1px solid;
 	}
 `;
 

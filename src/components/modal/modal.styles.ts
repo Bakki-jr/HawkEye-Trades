@@ -16,7 +16,7 @@ export const ModalBackground = styled.div<any>`
 export const ModalContainer = styled.div`
 	width: 80%;
 	max-width: 600px;
-	height: 500px;
+	max-height: 500px;
 	border-radius: 12px;
 	background-color: ${(props) =>
 		props.theme.palette.mode === "dark"

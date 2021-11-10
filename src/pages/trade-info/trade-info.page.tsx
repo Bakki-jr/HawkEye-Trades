@@ -5,7 +5,7 @@ import {
 	useAppSelector,
 } from "../../features/redux/redux-toolkit-hooks/redux-toolkit-hooks";
 import { fetchTradeById } from "../../features/redux/slice/trade-journal.slice";
-import { isAPIFetchedSuccefully } from "../../helpers/helper-API-status";
+import { isSpinnerReq } from "../../helpers/helper-API-status";
 import Spinner from "../../components/spinner/spinner.component";
 import draftToHtml from "draftjs-to-html";
 import { TradeInfoContainer, TradeInfoWrapper } from "./trade-info.styles";
@@ -34,7 +34,7 @@ const TradeInfo = () => {
 	const getTradeInfoStatus = useAppSelector(
 		(state) => state.tradeJournal.fetchTradeById.status
 	);
-	const isAPIFetched = isAPIFetchedSuccefully(getTradeInfoStatus);
+	const isAPIFetched = isSpinnerReq(getTradeInfoStatus);
 	const theme = useTheme();
 	useEffect(() => {
 		if (!userUID) return;

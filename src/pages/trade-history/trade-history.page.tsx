@@ -5,7 +5,7 @@ import {
 	useAppSelector,
 } from "../../features/redux/redux-toolkit-hooks/redux-toolkit-hooks";
 import { fetchUserTrades } from "../../features/redux/slice/trade-journal.slice";
-import { isAPIFetchedSuccefully } from "../../helpers/helper-API-status";
+import { isSpinnerReq } from "../../helpers/helper-API-status";
 
 import {
 	TradeHistoryTitle,
@@ -42,7 +42,7 @@ const TradeHistory: () => JSX.Element = () => {
 	const fetchStatus = useAppSelector(
 		(state) => state.tradeJournal.fetchTrades.status
 	);
-	const isSpinnerRequired = isAPIFetchedSuccefully(fetchStatus);
+	const isSpinnerRequired = isSpinnerReq(fetchStatus);
 	const userUID = useAppSelector((state) => state.user.uid);
 	const userTrades = useAppSelector(
 		(state) => state.tradeJournal.fetchTrades.trades

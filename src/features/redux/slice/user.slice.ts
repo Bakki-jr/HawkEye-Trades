@@ -81,12 +81,6 @@ export const userSlice = createSlice({
 	initialState,
 	reducers: {
 		resetUserData: () => initialState,
-		resetUploadImageStatus: (state) => {
-			state.uploadImageStatus = "";
-		},
-		resetUpdateUserProfileStatus: (state) => {
-			state.updateUserProfileStatus = "";
-		},
 	},
 	extraReducers: {
 		[addUser.pending.type]: (state: IAddUser) => {
@@ -150,8 +144,6 @@ export const userSlice = createSlice({
 
 export const {
 	resetUserData,
-	resetUploadImageStatus,
-	resetUpdateUserProfileStatus,
 } = userSlice.actions;
 
 export default userSlice.reducer;

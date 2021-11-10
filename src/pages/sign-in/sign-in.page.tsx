@@ -22,7 +22,7 @@ import {
 	signInWithEmail,
 	signInWithGoogleAuth,
 } from "../../features/redux/slice/login.slice";
-import { isAPIFetchedSuccefully } from "../../helpers/helper-API-status";
+import { isSpinnerReq } from "../../helpers/helper-API-status";
 import useToast from "../../hooks/use-toast";
 import { useRive } from "rive-react";
 import TeddyRiveComponent from "../../components/teddy-login-rive/teddy-login-rive.component";
@@ -83,8 +83,8 @@ const SignIn = () => {
 		(state) => state.user.fetchedUserStatus
 	);
 	const loggedInUserName = useAppSelector((state) => state.user.name);
-	const spinnerForSignIn = isAPIFetchedSuccefully(userSignInStatus);
-	const sipnnerForUserFetch = isAPIFetchedSuccefully(isUserDataFetched);
+	const spinnerForSignIn = isSpinnerReq(userSignInStatus);
+	const sipnnerForUserFetch = isSpinnerReq(isUserDataFetched);
 
 	const teddyRiveSuccess = useTeddyRiveSuccess(teddyRiveInstance);
 	const teddyRiveFailure = useTeddyRiveFailure(teddyRiveInstance);
@@ -177,12 +177,19 @@ const SignIn = () => {
 			});
 
 		isValidEmail &&
-			resetPassword(signInData.email).then((_) => {
-				toast({
-					message: `${AppConstantMessages.EMAIL_SENT_TO_MAIL} ${signInData.email}.`,
-					variant: "warning",
+			resetPassword(signInData.email)
+				.then(() => {
+					toast({
+						message: `${AppConstantMessages.EMAIL_SENT_TO_MAIL} ${signInData.email}.`,
+						variant: "warning",
+					});
+				})
+				.catch((err) => {
+					toast({
+						message: `${err}`,
+						variant: "error",
+					});
 				});
-			});
 	};
 
 	const handleKeypress = (event: any) => {

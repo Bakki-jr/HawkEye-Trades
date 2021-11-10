@@ -55,7 +55,7 @@ import {
 	useAppDispatch,
 	useAppSelector,
 } from "../../features/redux/redux-toolkit-hooks/redux-toolkit-hooks";
-import { isAPIFetchedSuccefully } from "../../helpers/helper-API-status";
+import { isSpinnerReq } from "../../helpers/helper-API-status";
 import Spinner from "../../components/spinner/spinner.component";
 import LoadingButton from "../../components/form-input-fields/button.component";
 import { useHistory } from "react-router";
@@ -174,7 +174,7 @@ const TradeJournal = () => {
 	const saveTradeStatus = useAppSelector(
 		(state) => state.tradeJournal.saveTrade.status
 	);
-	const isSpinnerRequired = isAPIFetchedSuccefully(saveTradeStatus);
+	const isSpinnerRequired = isSpinnerReq(saveTradeStatus);
 
 	useEffect(() => {
 		setValue("advancedSelfReview", editorData);
