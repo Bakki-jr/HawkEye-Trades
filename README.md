@@ -1,11 +1,32 @@
-# # HawkEye-Trades: 🦅
+# HawkEye-Trades: 🦅 
+:octocat:
 
 Web Application to jot down, analyze and create blog posts about your trades..... ^-^
 
-# Getting Started:
-- This Application is build upon react library
 
-# Major libraries used:
+
+
+# Table of Contents
+* [Getting Started](#getting-started)  
+* [Major libraries used](#major-libraries-used)
+* [Sign in](#sign-in)
+* [Sign up](#sign-up)
+* [Blog posts](#blog-posts)
+* [Create blog](#create-blog)
+* [Trade journal](#trade-journal)
+* [Trade History](#trade-history)
+* [Trade info](#trade-info)
+* [Update profile](#update-profile)
+
+
+## Getting Started
+- This Application is build on top of react library
+
+> Hosted using **Firebase** - https://hawkeye-trades.web.app/
+
+> Hosted using **Netlify** - https://hawkeye-trades.netlify.app/
+
+## Major libraries used
   Below are the libraries used for developing this application:
 
 - Used **Typescript** for optional static typing to the language
@@ -23,7 +44,7 @@ Web Application to jot down, analyze and create blog posts about your trades....
 
 # **# Below are some of the features implemented**
 
-# Sign in:
+# Sign in
 
 - User can sign-in using Google credentials or Email & Password.
 - Upon forgort password reset password link will be sent to user registered Email.
@@ -32,14 +53,14 @@ Web Application to jot down, analyze and create blog posts about your trades....
 ![sign-in](https://user-images.githubusercontent.com/54638348/140979425-03e14e7f-a7a7-4cfe-a231-e66f5f7de9fc.png)
 
 
-# Sign up:
+# Sign up
 
 - User can sign-up using Email and Password.
 - Random images will be displayed upon each mount.
 
 ![sign-up](https://user-images.githubusercontent.com/54638348/140979874-60e99869-acec-4757-97b8-24fad56c67e5.png)
 
-# Blog posts:
+# Blog posts
 
 - Blog posts are public for all authenticated users.
 - Users can comment on blog posts and interact with the community.
@@ -48,37 +69,37 @@ Web Application to jot down, analyze and create blog posts about your trades....
 
 ![blog-2](https://user-images.githubusercontent.com/54638348/140980706-2cd20744-6ef0-41ec-84cc-dd260e1944af.png)
 
-![blog-3](https://user-images.githubusercontent.com/54638348/140981035-96b17938-2dea-44a7-994d-289088c84b6d.png)
+![blog-3](https://user-images.githubusercontent.com/54638348/141129620-8fa14d64-0950-44bb-ab9b-7cd85b650e59.png)
 
 
-# Create blog:
+# Create blog
 
 - Users can create blogs and post them to view on blog page.
 - Used draftJS as text editor
 
 ![create-blog-post](https://user-images.githubusercontent.com/54638348/140981213-0ae81a97-aca8-4192-8d2a-59e84797db2b.png)
 
-# Trade journal:
+# Trade journal
 
 - Users can journal their trades and save them and these are kept private.
 
 ![trade-journal](https://user-images.githubusercontent.com/54638348/140981690-6e435393-6eb7-4ce6-b8d4-fb9f7a11e5c3.png)
 
-# Trade History:
+# Trade history
 
 - Only the trades which are specific to the user are shown
 
 ![trade-history](https://user-images.githubusercontent.com/54638348/140981911-0d26e23e-9e4f-46d4-a981-6ce6ba65f4fc.png)
 
 
-# Trade Info:
+# Trade info
 
 - Upon specific card selction in trade history page user can view their entire journal which user had saved earlier.
 
 ![specific-trade](https://user-images.githubusercontent.com/54638348/140982526-6ed17eca-3be4-4c64-a61c-5e3dd0c8c48e.png)
 
 
-# Update profile:
+# Update profile
 
 - User can change his display name and profile picture
 - Updated display name and profile picture will be updated across the application.
@@ -87,4 +108,3 @@ Web Application to jot down, analyze and create blog posts about your trades....
 
 
 Thanks for going through README file ☮️
-
