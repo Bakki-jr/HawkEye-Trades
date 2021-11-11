@@ -1,10 +1,15 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Spinner from "../../components/spinner/spinner.component";
 import {
 	useAppDispatch,
 	useAppSelector,
 } from "../../features/redux/redux-toolkit-hooks/redux-toolkit-hooks";
-import { fetchUserTrades } from "../../features/redux/slice/trade-journal.slice";
+import {
+	fetchTradingQuotes,
+	fetchUserTrades,
+	IQuotes,
+	resetFetchUserTradesStatus,
+} from "../../features/redux/slice/trade-journal.slice";
 import { isSpinnerReq } from "../../helpers/helper-API-status";
 
 import {
@@ -18,6 +23,9 @@ import {
 	OverviewWrapper,
 	AddTradeContainer,
 	AddTradeImage,
+	TradeQoute,
+	TradeQuoteedBy,
+	OverallTradeInfoWrapper,
 } from "./trade-history.styles";
 import { useTheme } from "@mui/material";
 
@@ -47,6 +55,10 @@ const TradeHistory: () => JSX.Element = () => {
 	const userTrades = useAppSelector(
 		(state) => state.tradeJournal.fetchTrades.trades
 	);
+	const quotes = useAppSelector(
+		(state) => state.tradeJournal.fetchTradingQuotes.quotes
+	);
+	const [tradingQuote, setTradingQuote] = useState<IQuotes>();
 	const dispatch = useAppDispatch();
 	const theme = useTheme();
 	const history = useHistory();
@@ -54,7 +66,23 @@ const TradeHistory: () => JSX.Element = () => {
 
 	useEffect(() => {
 		userUID && dispatch(fetchUserTrades(userUID));
+		quotes.length === 0 && dispatch(fetchTradingQuotes());
+		return () => {
+			dispatch(resetFetchUserTradesStatus());
+		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [userUID, dispatch]);
+
+	useEffect(() => {
+		quotes.length > 0 && getRandomQuote();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [quotes]);
+
+	const getRandomQuote = () => {
+		const randomIndex = Math.ceil(Math.random() * quotes.length - 1);
+		setTradingQuote(quotes[randomIndex]);
+		return randomIndex;
+	};
 
 	const goToPostYourTrade = () => history.push(Routes.TRADE_JOURNAL);
 	const goToTradeDetails = (id: string) => {
@@ -75,24 +103,34 @@ const TradeHistory: () => JSX.Element = () => {
 							Post Your Trade
 						</Button>
 					</AddNewTradeButton>
+					<OverallTradeInfoWrapper>
+						<OverviewWrapper>
+							<Button className={classes.button} color="primary">
+								{`Total Trades Punched: ${userTrades.length.toString()}`}
+							</Button>
+						</OverviewWrapper>
+						<OverviewWrapper>
+							<Button className={classes.button} color="primary">
+								{`Total PNL: ${formatToIndianCurrency(
+									userTrades.reduce(
+										(prevPNL, currentTrade) =>
+											prevPNL + Number(currentTrade.profitAndLoss),
+										0
+									)
+								)}`}
+							</Button>
+						</OverviewWrapper>
+					</OverallTradeInfoWrapper>
 				</AddJournalBanner>
 				<QuotesBanner>
-					<OverviewWrapper>
+					<TradeQoute theme={theme}>
+						{quotes.length > 0 ? <q>{` ${tradingQuote?.quote} `}</q> : ""}
+					</TradeQoute>
+					<TradeQuoteedBy>
 						<Button className={classes.button} color="primary">
-							{`Total PNL: ${formatToIndianCurrency(
-								userTrades.reduce(
-									(prevPNL, currentTrade) =>
-										prevPNL + Number(currentTrade.profitAndLoss),
-									0
-								)
-							)}`}
+							{quotes.length > 0 ? `~ ${tradingQuote?.trader}` : ""}
 						</Button>
-					</OverviewWrapper>
-					<OverviewWrapper>
-						<Button className={classes.button} color="primary">
-							{`Total Trades Puched: ${userTrades.length.toString()}`}
-						</Button>
-					</OverviewWrapper>
+					</TradeQuoteedBy>
 				</QuotesBanner>
 			</BannersContainer>
 			<TradeHistoryTitle>Trade History</TradeHistoryTitle>
@@ -116,7 +154,11 @@ const TradeHistory: () => JSX.Element = () => {
 			</TradesWrapper>
 		</Container>
 	);
-	return isSpinnerRequired ? <Spinner isLoading={isSpinnerRequired} /> : Trades;
+	return isSpinnerRequired || fetchStatus === "" ? (
+		<Spinner isLoading={isSpinnerRequired} />
+	) : (
+		Trades
+	);
 };
 
 export default TradeHistory;

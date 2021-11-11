@@ -19,41 +19,80 @@ export const BannersContainer = styled.div`
 	}
 `;
 
+export const OverallTradeInfoWrapper = styled.div`
+	display: flex;
+	justify-content: space-evenly;
+`;
+
 export const AddNewTradeButton = styled.div`
 	width: 160px;
 	border-radius: 10px;
-	align-self: end;
 	margin-inline-end: 10px;
+	display: flex;
+	align-self: end;
+`;
+
+export const TradeQoute = styled.div`
+	font-weight: bold;
+	color: #000;
+	width: 94%;
+	margin-inline: auto;
+	margin-block-start: 5px;
+	padding-block-start: 5px;
+	max-height: 50px;
+	overflow-y: auto;
+	::-webkit-scrollbar {
+		width: 5px;
+	}
+	::-webkit-scrollbar-track {
+		box-shadow: inset 0 0 5px ${(props) => props.theme.palette.primary.main};
+		border-radius: 10px;
+	}
+	::-webkit-scrollbar-thumb {
+		background: ${(props) => props.theme.palette.primary.main};
+		border-radius: 10px;
+	}
+`;
+
+export const TradeQuoteedBy = styled.div`
+	min-width: 160px;
+	max-width: max-content;
+	border-radius: 10px;
+	margin-inline-end: 10px;
+	display: flex;
+	justify-self: flex-end;
+	max-height: 55px;
 `;
 
 export const OverviewWrapper = styled.div`
 	border-radius: 10px;
 	margin-inline-end: 10px;
+	max-height: 50px;
+	margin-block-end: 4px;
 `;
 
 export const AddJournalBanner = styled.div`
-	min-height: 100px;
+	min-height: 110px;
 	border-radius: 15px;
-	justify-content: flex-end;
 	background: url(${addJournalBannerWave});
 	background-repeat: no-repeat;
 	background-position: bottom;
 	background-size: cover;
-	display: grid;
-	place-self: end;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 	width: max(40%, 600px);
 `;
 
 export const QuotesBanner = styled.div`
-	min-height: 100px;
+	min-height: 110px;
 	border-radius: 15px;
 	background: url(${QuotesbannerWave});
 	background-repeat: no-repeat;
 	background-position: bottom;
 	background-size: cover;
-	display: flex;
-	justify-content: space-evenly;
-	align-items: center;
+	display: grid;
+	place-self: end;
 	width: max(40%, 600px);
 `;
 

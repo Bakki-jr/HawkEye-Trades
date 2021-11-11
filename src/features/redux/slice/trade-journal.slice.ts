@@ -6,7 +6,13 @@ import {
 	getTrades,
 	getTradeDocById,
 	saveTradeToTradesCollection,
+	getTradingQuotes,
 } from "../../firebase/trade-journal";
+
+export interface IQuotes {
+	quote: string;
+	trader: string;
+}
 
 interface IUserTradeJournal {
 	saveTrade: {
@@ -20,6 +26,10 @@ interface IUserTradeJournal {
 	fetchTradeById: {
 		status: IStatus;
 		trade?: ITradeDetails;
+	};
+	fetchTradingQuotes: {
+		status: IStatus;
+		quotes: IQuotes[];
 	};
 }
 
@@ -40,6 +50,10 @@ const initialState: IUserTradeJournal = {
 	},
 	fetchTradeById: {
 		status: "",
+	},
+	fetchTradingQuotes: {
+		status: "",
+		quotes: [],
 	},
 };
 
@@ -64,6 +78,13 @@ export const fetchTradeById = createAsyncThunk(
 	}
 );
 
+export const fetchTradingQuotes = createAsyncThunk(
+	"tradeJournal/fetchTradingQuotes",
+	async () => {
+		return await getTradingQuotes();
+	}
+);
+
 export const tradeJournalSlice = createSlice({
 	name: "tradeJournal",
 	initialState,
@@ -71,6 +92,9 @@ export const tradeJournalSlice = createSlice({
 		resetUserTrades: () => initialState,
 		resetSaveTradeStatus: (state) => {
 			state.saveTrade.status = "";
+		},
+		resetFetchUserTradesStatus: (state) => {
+			state.fetchTrades.status = "";
 		},
 	},
 	extraReducers: {
@@ -112,10 +136,29 @@ export const tradeJournalSlice = createSlice({
 		[fetchTradeById.rejected.type]: (state: IUserTradeJournal, { error }) => {
 			state.fetchTradeById.status = "failed";
 		},
+		[fetchTradingQuotes.pending.type]: (state: IUserTradeJournal) => {
+			state.fetchTradingQuotes.status = "pending";
+		},
+		[fetchTradingQuotes.fulfilled.type]: (
+			state: IUserTradeJournal,
+			{ payload: { quotes } }: { payload: { quotes: Array<IQuotes> } }
+		) => {
+			state.fetchTradingQuotes.status = "success";
+			state.fetchTradingQuotes.quotes = quotes;
+		},
+		[fetchTradingQuotes.rejected.type]: (
+			state: IUserTradeJournal,
+			{ error }
+		) => {
+			state.fetchTradingQuotes.status = "failed";
+		},
 	},
 });
 
-export const { resetUserTrades, resetSaveTradeStatus } =
-	tradeJournalSlice.actions;
+export const {
+	resetUserTrades,
+	resetSaveTradeStatus,
+	resetFetchUserTradesStatus,
+} = tradeJournalSlice.actions;
 
 export default tradeJournalSlice.reducer;

@@ -31,3 +31,9 @@ export const getTradeDocById = async (docToFetch: IFetchTradeDocRequest) => {
 		doc(db, `trades/${docToFetch.uid}/savedTrades/${docToFetch.id}`)
 	).then((doc) => doc.data());
 };
+
+export const getTradingQuotes = async () => {
+	return await getDoc(doc(db, "tradingQuotes/quotesDoc")).then((doc) =>
+		doc.data()
+	);
+};
