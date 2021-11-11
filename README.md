@@ -41,7 +41,6 @@ Web Application to jot down, analyze and create blog posts about your trades....
 
 ![libraries-used](https://user-images.githubusercontent.com/54638348/140985877-5e997ad6-4650-45fb-8071-1f880a36bce9.png)
 
-
 # **# Below are some of the features implemented**
 
 # Sign in
@@ -51,7 +50,6 @@ Web Application to jot down, analyze and create blog posts about your trades....
 - Upon user interactivity with input fields below images will interact/react accordingly.
 
 ![sign-in](https://user-images.githubusercontent.com/54638348/140979425-03e14e7f-a7a7-4cfe-a231-e66f5f7de9fc.png)
-
 
 # Sign up
 
@@ -71,7 +69,6 @@ Web Application to jot down, analyze and create blog posts about your trades....
 
 ![blog-3](https://user-images.githubusercontent.com/54638348/141129620-8fa14d64-0950-44bb-ab9b-7cd85b650e59.png)
 
-
 # Create blog
 
 - Users can create blogs and post them to view on blog page.
@@ -88,16 +85,15 @@ Web Application to jot down, analyze and create blog posts about your trades....
 # Trade history
 
 - Only the trades which are specific to the user are shown
+- Random trading quotes are shown on top right side.
 
-![trade-history](https://user-images.githubusercontent.com/54638348/140981911-0d26e23e-9e4f-46d4-a981-6ce6ba65f4fc.png)
-
+![trade-history](https://user-images.githubusercontent.com/54638348/141294863-2d790b93-15ab-4252-bf3d-7da9d28d9997.png)
 
 # Trade info
 
 - Upon specific card selction in trade history page user can view their entire journal which user had saved earlier.
 
 ![specific-trade](https://user-images.githubusercontent.com/54638348/140982526-6ed17eca-3be4-4c64-a61c-5e3dd0c8c48e.png)
-
 
 # Update profile
 
