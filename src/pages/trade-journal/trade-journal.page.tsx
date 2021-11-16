@@ -227,8 +227,8 @@ const TradeJournal = () => {
 		endDate: Date,
 		startDate: Date
 	) => {
-		setValue("profitAndLoss", pnl);
-		setValue("investedAmount", totalAmountInvested);
+		setValue("profitAndLoss", Number(pnl.toFixed(2)));
+		setValue("investedAmount", Number(totalAmountInvested.toFixed(2)));
 		setValue("roi", Number(((pnl / totalAmountInvested) * 100).toFixed(2)));
 		setValue("durationOfTrade", getDifferenceInDays(endDate, startDate));
 	};
