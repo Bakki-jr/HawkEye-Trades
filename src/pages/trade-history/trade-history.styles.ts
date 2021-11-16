@@ -104,10 +104,9 @@ export const TradeHistoryTitle = styled.div`
 `;
 
 export const TradesWrapper = styled.div`
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-evenly;
-	margin: 20px;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+	grid-gap: 10px;
 `;
 
 export const AddTradeContainer = styled.div`

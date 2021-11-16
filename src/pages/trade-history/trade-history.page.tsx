@@ -142,13 +142,12 @@ const TradeHistory: () => JSX.Element = () => {
 					</AddTradeContainer>
 				) : (
 					userTrades.map((trade, index) => (
-						<div key={index}>
-							<TradeOverviewCard
-								trade={trade}
-								theme={theme}
-								handleClick={() => goToTradeDetails(trade.id)}
-							/>
-						</div>
+						<TradeOverviewCard
+							key={index}
+							trade={trade}
+							theme={theme}
+							handleClick={() => goToTradeDetails(trade.id)}
+						/>
 					))
 				)}
 			</TradesWrapper>

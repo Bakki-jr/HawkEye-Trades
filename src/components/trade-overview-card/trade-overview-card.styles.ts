@@ -4,7 +4,6 @@ export const TradeItem = styled.div`
 	background: ${(props) => props.theme.palette.secondary.main};
 	border-radius: 10px;
 	margin: 10px;
-	min-width: 360px;
 	&:hover {
 		background: ${(props) => props.theme.palette.secondary.dark};
 		cursor: pointer;

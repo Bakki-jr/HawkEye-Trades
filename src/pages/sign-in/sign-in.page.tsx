@@ -52,7 +52,6 @@ const SignIn = () => {
 		password: "",
 	});
 	const inputTypeRef = useRef("");
-
 	const treeRiveParams = {
 		src: "rive/tree.riv",
 		stateMachines: STATE_TREE_MACHINE_NAME,
@@ -224,37 +223,42 @@ const SignIn = () => {
 					<Typography variant="h4" color="primary" align="center">
 						Login
 					</Typography>
-					<TextInput
-						label="Email"
-						name="email"
-						type="email"
-						handleChange={handleChange}
-					></TextInput>
-					<TextInput
-						label="Password"
-						name="password"
-						type="password"
-						handleChange={handleChange}
-						handleKeyPress={handleKeypress}
-					></TextInput>
-					<Typography
-						onClick={() => handleResetPassword()}
-						sx={{ cursor: "pointer" }}
-						variant="body2"
-						color="primary"
-						align="right"
-					>
-						Forgot Password!
-					</Typography>
-					<Button
-						type="submit"
-						color="primary"
-						endIcon="send"
-						handleClick={handleSignInWithEmail}
-						loading={spinnerForSignIn || sipnnerForUserFetch}
-					>
-						Unleash the journey
-					</Button>
+					<form>
+						<TextInput
+							label="Email"
+							name="email"
+							type="email"
+							isAutoFocusRequired={true}
+							handleChange={handleChange}
+							autoCompleteInfo="email"
+						></TextInput>
+						<TextInput
+							label="Password"
+							name="password"
+							type="password"
+							handleChange={handleChange}
+							handleKeyPress={handleKeypress}
+							autoCompleteInfo="current-password"
+						></TextInput>
+						<Typography
+							onClick={() => handleResetPassword()}
+							sx={{ cursor: "pointer" }}
+							variant="body2"
+							color="primary"
+							align="right"
+						>
+							Forgot Password!
+						</Typography>
+						<Button
+							type="submit"
+							color="primary"
+							endIcon="send"
+							handleClick={handleSignInWithEmail}
+							loading={spinnerForSignIn || sipnnerForUserFetch}
+						>
+							Unleash the journey
+						</Button>
+					</form>
 					<Button startIcon="google" color="warning" handleClick={googleSignIn}>
 						Google Sign In
 					</Button>

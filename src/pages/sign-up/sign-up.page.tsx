@@ -73,6 +73,7 @@ const SignUp = () => {
 	const handleKeypress = (event: any) => {
 		event.key === "Enter" && signUpNewUserWithEmail();
 	};
+	
 	const signUpNewUserWithEmail = (event?: any) => {
 		if (event) event.preventDefault();
 		dispatch(signUpWithEmail(signUpData)).then((res: any) => {
@@ -96,33 +97,37 @@ const SignUp = () => {
 					<Typography variant="h4" color="primary" align="center">
 						Sign Up
 					</Typography>
-					<TextInput
-						label="UserName"
-						name="userName"
-						type="text"
-						handleChange={handleChange}
-					></TextInput>
-					<TextInput
-						label="Email"
-						name="email"
-						type="email"
-						handleChange={handleChange}
-					></TextInput>
-					<TextInput
-						label="Password"
-						name="password"
-						type="password"
-						handleChange={handleChange}
-						handleKeyPress={handleKeypress}
-					></TextInput>
-					<Button
-						color="primary"
-						endIcon="send"
-						handleClick={signUpNewUserWithEmail}
-						loading={isSpinnerRequired}
-					>
-						Unleash the journey
-					</Button>
+					<form>
+						<TextInput
+							label="UserName"
+							name="userName"
+							type="text"
+							handleChange={handleChange}
+							isAutoFocusRequired={true}
+						></TextInput>
+						<TextInput
+							label="Email"
+							name="email"
+							type="email"
+							handleChange={handleChange}
+						></TextInput>
+						<TextInput
+							label="Password"
+							name="password"
+							type="password"
+							handleChange={handleChange}
+							handleKeyPress={handleKeypress}
+							autoCompleteInfo="current-password"
+						></TextInput>
+						<Button
+							color="primary"
+							endIcon="send"
+							handleClick={signUpNewUserWithEmail}
+							loading={isSpinnerRequired}
+						>
+							Unleash the journey
+						</Button>
+					</form>
 					<Button endIcon="door" handleClick={redirectTo}>
 						Back To Sign In
 					</Button>
