@@ -106,16 +106,20 @@ const TradeHistory: () => JSX.Element = () => {
 					<OverallTradeInfoWrapper>
 						<OverviewWrapper>
 							<Button className={classes.button} color="primary">
-								{`Total Trades Punched: ${userTrades.length.toString()}`}
+								{`Total Trades Punched: ${userTrades.length}`}
 							</Button>
 						</OverviewWrapper>
 						<OverviewWrapper>
 							<Button className={classes.button} color="primary">
 								{`Total PNL: ${formatToIndianCurrency(
-									userTrades.reduce(
-										(prevPNL, currentTrade) =>
-											prevPNL + Number(currentTrade.profitAndLoss),
-										0
+									Number(
+										userTrades
+											.reduce(
+												(prevPNL, currentTrade) =>
+													prevPNL + Number(currentTrade.profitAndLoss),
+												0
+											)
+											.toFixed(2)
 									)
 								)}`}
 							</Button>
