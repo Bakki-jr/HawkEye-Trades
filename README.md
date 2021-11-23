@@ -17,6 +17,7 @@ Web Application to jot down, analyze and create blog posts about your trades....
 * [Trade History](#trade-history)
 * [Trade info](#trade-info)
 * [Update profile](#update-profile)
+* [Page not found](#page-not-found)
 
 
 ## Getting Started
@@ -101,6 +102,13 @@ Web Application to jot down, analyze and create blog posts about your trades....
 - Updated display name and profile picture will be updated across the application.
 
 ![update-profile](https://user-images.githubusercontent.com/54638348/140982983-32d790fd-1c79-40cf-a300-b434287528a7.png)
+
+# Page not found
+- User can redirect to sign-in page or home page based on authentication status.
+- Images are loaded dynamically.
+
+![screely-1637680561638](https://user-images.githubusercontent.com/54638348/143051134-29998284-9806-4961-b0f9-f05dd8daacda.png)
+
 
 
 Thanks for going through README file ☮️
