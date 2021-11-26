@@ -99,7 +99,7 @@ const SignUp = () => {
 					</Typography>
 					<form>
 						<TextInput
-							label="UserName"
+							label="User Name"
 							name="userName"
 							type="text"
 							handleChange={handleChange}
