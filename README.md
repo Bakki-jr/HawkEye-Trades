@@ -8,6 +8,7 @@ Web Application to jot down, analyze and create blog posts about your trades....
 
 # Table of Contents
 * [Getting Started](#getting-started)  
+* [Project Structure](#project-structure)  
 * [Major libraries used](#major-libraries-used)
 * [Sign in](#sign-in)
 * [Sign up](#sign-up)
@@ -26,6 +27,128 @@ Web Application to jot down, analyze and create blog posts about your trades....
 > Hosted using **Firebase** - https://hawkeye-trades.web.app/
 
 > Hosted using **Netlify** - https://hawkeye-trades.netlify.app/
+
+
+## Project Structure
+```
+├── App.css
+├── App.tsx
+├── assets
+|  ├── fonts
+|  |  └── Nunito
+|  └── images
+|     ├── app-info
+|     ├── illustrations
+|     ├── nli
+|     ├── page-not-found
+|     ├── trade-history
+|     └── waves
+├── components
+|  ├── blog-card
+|  |  ├── blog-card.component.tsx
+|  |  └── blog-card.styles.ts
+|  ├── blog-details
+|  |  ├── blog-details.component.tsx      
+|  |  └── blog-details.styles.ts
+|  ├── editor-draftjs
+|  |  ├── editor-draftjs.component.tsx    
+|  |  └── editor-draftjs.styles.ts        
+|  ├── form-input-fields
+|  |  ├── button.component.tsx
+|  |  └── text-input.component.tsx        
+|  ├── modal
+|  |  ├── modal.component.tsx
+|  |  └── modal.styles.ts
+|  ├── navigation
+|  |  └── navigation.component.tsx        
+|  ├── page-not-found
+|  |  ├── page-not-found.component.tsx
+|  |  └── page-not-found.styles.ts
+|  ├── route
+|  |  └── route.component.tsx
+|  ├── snackbar
+|  |  └── snackbar.component.tsx
+|  ├── spinner
+|  |  ├── spinner.component.tsx
+|  |  └── spinner.styles.ts
+|  ├── stock-price-table
+|  |  └── stock-price-table.component.tsx
+|  ├── teddy-login-rive
+|  |  └── teddy-login-rive.component.tsx
+|  ├── trade-details
+|  |  ├── trade-details.component.tsx
+|  |  └── trade-details.styles.ts
+|  ├── trade-overview-card
+|  |  ├── trade-overview-card.component.tsx
+|  |  └── trade-overview-card.styles.ts
+|  ├── tree-rive
+|  |  └── tree-rive.component.tsx
+|  └── user-avatar
+|     ├── user-avatar.component.tsx
+|     └── user-avatar.styles.ts
+├── constants
+|  ├── app-constans.ts
+|  ├── route-paths.ts
+|  └── theme.ts
+├── features
+|  ├── api
+|  |  └── rapid-API
+|  ├── firebase
+|  |  ├── auth.ts
+|  |  ├── blog.ts
+|  |  ├── config.ts
+|  |  ├── trade-journal.ts
+|  |  └── users.ts
+|  └── redux
+|     ├── redux-toolkit-hooks
+|     ├── reset-redux-state
+|     ├── slice
+|     └── store
+├── helpers
+|  ├── currency-formatter.ts
+|  ├── helper-API-status.ts
+|  └── helper-date.ts
+├── hooks
+|  ├── use-document-height.ts
+|  ├── use-login-teddy-rive.ts
+|  ├── use-toast.ts
+|  ├── use-tree-rive.ts
+|  └── use-window-dimensions.ts
+├── index.css
+├── index.tsx
+├── interface
+|  └── interface.ts
+├── pages
+|  ├── blog
+|  |  ├── blog.page.tsx
+|  |  └── blog.styles.ts
+|  ├── create-blog
+|  |  ├── create-blog.page.tsx
+|  |  └── create-blog.styles.ts
+|  ├── info
+|  |  ├── info.page.tsx
+|  |  └── info.styles.ts
+|  ├── sign-in
+|  |  ├── sign-in.page.tsx
+|  |  └── sign-in.styles.ts
+|  ├── sign-up
+|  |  └── sign-up.page.tsx
+|  ├── stocks-info
+|  |  └── stocks-info.page.tsx
+|  ├── trade-history
+|  |  ├── trade-history.page.tsx
+|  |  └── trade-history.styles.ts
+|  ├── trade-info
+|  |  ├── trade-info.page.tsx
+|  |  └── trade-info.styles.ts
+|  ├── trade-journal
+|  |  ├── trade-journal.page.tsx
+|  |  └── trade-journal.styles.ts
+|  └── user-profile
+|     ├── user-profile.page.tsx
+|     └── user-profile.styles.ts
+```
+
 
 ## Major libraries used
   Below are the libraries used for developing this application:
