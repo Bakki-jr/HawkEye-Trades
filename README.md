@@ -29,7 +29,7 @@ Web Application to jot down, analyze and create blog posts about your trades....
 > Hosted using **Netlify** - https://hawkeye-trades.netlify.app/
 
 
-## Project Structure
+## Project Scafolding
 ```
 ├── App.css
 ├── App.tsx
@@ -38,6 +38,7 @@ Web Application to jot down, analyze and create blog posts about your trades....
 |  |  └── Nunito
 |  └── images
 |     ├── app-info
+|     ├── generic
 |     ├── illustrations
 |     ├── nli
 |     ├── page-not-found
@@ -48,22 +49,24 @@ Web Application to jot down, analyze and create blog posts about your trades....
 |  |  ├── blog-card.component.tsx
 |  |  └── blog-card.styles.ts
 |  ├── blog-details
-|  |  ├── blog-details.component.tsx      
+|  |  ├── blog-details.component.tsx
 |  |  └── blog-details.styles.ts
 |  ├── editor-draftjs
-|  |  ├── editor-draftjs.component.tsx    
-|  |  └── editor-draftjs.styles.ts        
+|  |  ├── editor-draftjs.component.tsx
+|  |  └── editor-draftjs.styles.ts
 |  ├── form-input-fields
 |  |  ├── button.component.tsx
-|  |  └── text-input.component.tsx        
+|  |  └── text-input.component.tsx
 |  ├── modal
 |  |  ├── modal.component.tsx
 |  |  └── modal.styles.ts
 |  ├── navigation
-|  |  └── navigation.component.tsx        
+|  |  └── navigation.component.tsx
 |  ├── page-not-found
 |  |  ├── page-not-found.component.tsx
 |  |  └── page-not-found.styles.ts
+|  ├── player
+|  |  └── player.component.tsx
 |  ├── route
 |  |  └── route.component.tsx
 |  ├── snackbar
@@ -93,6 +96,7 @@ Web Application to jot down, analyze and create blog posts about your trades....
 ├── features
 |  ├── api
 |  |  └── rapid-API
+|  |     └── nse-data.ts
 |  ├── firebase
 |  |  ├── auth.ts
 |  |  ├── blog.ts
@@ -101,9 +105,18 @@ Web Application to jot down, analyze and create blog posts about your trades....
 |  |  └── users.ts
 |  └── redux
 |     ├── redux-toolkit-hooks
+|     |  └── redux-toolkit-hooks.ts
 |     ├── reset-redux-state
+|     |  └── reset-redux-state.ts
 |     ├── slice
+|     |  ├── app-users.slice.ts
+|     |  ├── blog.slice.ts
+|     |  ├── login.slice.ts
+|     |  ├── sign-up.slice.ts
+|     |  ├── trade-journal.slice.ts
+|     |  └── user.slice.ts
 |     └── store
+|        └── store.ts
 ├── helpers
 |  ├── currency-formatter.ts
 |  ├── helper-API-status.ts
@@ -147,6 +160,9 @@ Web Application to jot down, analyze and create blog posts about your trades....
 |  └── user-profile
 |     ├── user-profile.page.tsx
 |     └── user-profile.styles.ts
+
+directory: 54 file: 120
+
 ```
 
 

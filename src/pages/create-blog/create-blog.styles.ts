@@ -1,4 +1,6 @@
+import { Button } from "@mui/material";
 import styled from "styled-components";
+import { styled as muiStyled } from "@mui/material/styles";
 
 export const Container = styled.div`
 	padding-inline: 20px;
@@ -27,4 +29,35 @@ export const FromFieldErrorMessageContainer = styled.p`
 
 export const FieldLabel = styled.div`
 	margin-block-end: 10px;
+`;
+
+export const FieldArrayLabel = styled.div`
+	margin-block-end: 20px;
+`;
+
+export const AddItemWrapper = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	> div {
+		margin-block-end: 20px;
+	}
+	> svg {
+		margin-block-end: 20px;
+		cursor: pointer;
+	}
+`;
+
+export const AddFieldArrayWrapper = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: end;
+`;
+
+export const AddAnotherPositionButton = muiStyled(Button)`
+	text-transform: capitalize;
+	height: 40px;
+	border-radius: 25px;
+	margin-block-end: 25px;
 `;

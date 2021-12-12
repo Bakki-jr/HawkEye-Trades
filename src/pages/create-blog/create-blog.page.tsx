@@ -7,9 +7,19 @@ import {
 	FromFieldErrorMessageContainer,
 	FieldLabel,
 	Header,
+	AddItemWrapper,
+	AddFieldArrayWrapper,
+	AddAnotherPositionButton,
+	FieldArrayLabel,
 } from "./create-blog.styles";
 import LoadingButton from "../../components/form-input-fields/button.component";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import {
+	useForm,
+	SubmitHandler,
+	Controller,
+	useFieldArray,
+	FieldArrayWithId,
+} from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import {
@@ -25,20 +35,29 @@ import { isSpinnerReq } from "../../helpers/helper-API-status";
 import Toast from "../../components/snackbar/snackbar.component";
 import { useHistory } from "react-router";
 import { Routes } from "../../constants/route-paths";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import { AspectRatio } from "@mui/icons-material";
 
 interface IBlog {
 	title: string;
-	blogEditor: any;
 	shortDescription: string;
+	blogEditor: any;
+	externalLinks: any;
 }
 
 const schema = yup.object().shape({
 	title: yup.string().required("* blog title is Required").max(100),
-	blogEditor: yup.object().required("* blog content is Required"),
 	shortDescription: yup
 		.string()
 		.required("* blog description is Required")
 		.min(50),
+	blogEditor: yup.object().required("* blog content is Required"),
+	externalLinks: yup.array().of(
+		yup.object().shape({
+			link: yup.string(),
+		})
+	),
 });
 
 const CreateBlog = () => {
@@ -49,7 +68,16 @@ const CreateBlog = () => {
 		formState: { errors },
 		setValue,
 		handleSubmit,
-	} = useForm<IBlog>({ resolver: yupResolver(schema) });
+	} = useForm<IBlog>({
+		resolver: yupResolver(schema),
+		defaultValues: {
+			externalLinks: [{ link: "" }],
+		},
+	});
+	const { fields, append, remove } = useFieldArray({
+		control,
+		name: "externalLinks",
+	});
 	const [editorData, setEditorData] = useState();
 	const userUID = useAppSelector((state) => state.user.uid);
 	const saveBlogStatus = useAppSelector((state) => state.blog.saveBlog.status);
@@ -70,6 +98,12 @@ const CreateBlog = () => {
 			saveBlogStatus === "success" && dispatch(resetSaveBlogStatus());
 		};
 	}, [saveBlogStatus, history, dispatch]);
+
+	const removeFieldFromFieldArray = (
+		remove: (index?: number | number[] | undefined) => void,
+		fieldArray: FieldArrayWithId<IBlog, "externalLinks", "id">[],
+		index: number
+	) => (fieldArray.length !== 1 ? remove(index) : alert("cant remove"));
 
 	return (
 		<Container>
@@ -123,6 +157,39 @@ const CreateBlog = () => {
 					<FromFieldErrorMessageContainer>
 						{errors.blogEditor?.message}
 					</FromFieldErrorMessageContainer>
+					<FieldArrayLabel>YouTube Links :</FieldArrayLabel>
+					{fields.map((field, index) => (
+						<AddItemWrapper key={field.id}>
+							<Controller
+								render={({ field }) => (
+									<TextField
+										sx={{ width: "88%" }}
+										type="text"
+										label="link"
+										fullWidth
+										color="primary"
+										autoComplete="off"
+										{...field}
+									/>
+								)}
+								name={`externalLinks.${index}.link`}
+								control={control}
+							/>
+							<DeleteForeverIcon
+								color="error"
+								onClick={() => removeFieldFromFieldArray(remove, fields, index)}
+							/>
+						</AddItemWrapper>
+					))}
+					<AddFieldArrayWrapper>
+						<AddAnotherPositionButton
+							variant="contained"
+							onClick={() => append({ link: "" })}
+							endIcon={<AddBoxIcon />}
+						>
+							Include additional link
+						</AddAnotherPositionButton>
+					</AddFieldArrayWrapper>
 					<LoadingButton
 						color="primary"
 						type="submit"

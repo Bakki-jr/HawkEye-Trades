@@ -25,6 +25,9 @@ import {
 	UserComment,
 	BlogCommentsTitle,
 	BlogCommentsWrapper,
+	YoutubeVideoWrapper,
+	ImageThumbnail,
+	VideosContainer,
 } from "./blog-details.styles";
 import LoadingButton from "../../components/form-input-fields/button.component";
 import { makeStyles } from "@mui/styles";
@@ -44,6 +47,7 @@ import { db } from "../../features/firebase/config";
 import { doc } from "firebase/firestore";
 import Spinner from "../spinner/spinner.component";
 import UserAvatar from "../user-avatar/user-avatar.component";
+import Player from "../player/player.component";
 
 interface IBlogContent {
 	theme: Theme;
@@ -115,6 +119,35 @@ const BlogContent = ({ theme, blogId, blogPostedBy }: IBlogContent) => {
 		});
 		return filteredUser;
 	};
+
+	const getYoutubeID = (url: any) => {
+		return url.match(
+			/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/
+		)[1];
+	};
+
+	const getYoutubeURL = (url: any) => {
+		const id = getYoutubeID(url);
+		return `https://www.youtube.com/watch?v=${id}`;
+	};
+	const getYoutubeThumbnail = (url: any) => {
+		const id = getYoutubeID(url);
+		return `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+	};
+
+	const id = getYoutubeID("https://www.youtube.com/watch?v=rvYunqvMXkU");
+	const thumb_url = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+	const youtube_url = `https://www.youtube.com/watch?v=${id}`;
+
+	const [openPlayerModal, setopenPlayerModal] = useState(false);
+	const [youTubeURL, setyouTubeURL] = useState("");
+
+	const toggleModalStatus = () => setopenPlayerModal(!openPlayerModal);
+	const invokeReactPlayer = (youtubeURL: string) => {
+		setopenPlayerModal(!openPlayerModal);
+		setyouTubeURL(youtubeURL);
+	};
+
 	const handleCommentSubmit = async (comment: string) => {
 		if (!comment) return;
 		const commentInfo = {
@@ -127,6 +160,8 @@ const BlogContent = ({ theme, blogId, blogPostedBy }: IBlogContent) => {
 		setComment("");
 		dispatch(resetupdateBlogCommentsStatus());
 	};
+
+	console.log(fetchedBlog);
 
 	return (
 		<SpecificBlogContentWrapper theme={theme}>
@@ -147,6 +182,21 @@ const BlogContent = ({ theme, blogId, blogPostedBy }: IBlogContent) => {
 						{fetchedBlog?.shortDescription}
 					</SpecificBlogDescription>
 					<BlogEditorContent>{ReactHtmlParser(markup)}</BlogEditorContent>
+					<VideosContainer>
+						{fetchedBlog?.externalLinks &&
+						fetchedBlog.externalLinks[0].link !== 0
+							? fetchedBlog.externalLinks.map((item: any) => (
+									<YoutubeVideoWrapper
+										onClick={() => invokeReactPlayer(getYoutubeURL(item.link))}
+									>
+										<ImageThumbnail
+											src={getYoutubeThumbnail(item.link)}
+											alt=""
+										/>
+									</YoutubeVideoWrapper>
+							  ))
+							: null}
+					</VideosContainer>
 					{fetchedBlog?.comments?.length > 0 ? (
 						<BlogCommentsTitle>Comments:</BlogCommentsTitle>
 					) : null}
@@ -174,7 +224,6 @@ const BlogContent = ({ theme, blogId, blogPostedBy }: IBlogContent) => {
 						</BlogCommentsWrapper>
 					</BlogComments>
 					<BlogCommentInput>
-						<div></div>
 						<InputEmoji
 							placeholder="post your comment...!"
 							value={comment}
@@ -195,6 +244,11 @@ const BlogContent = ({ theme, blogId, blogPostedBy }: IBlogContent) => {
 							</LoadingButton>
 						</BlogComemntSubmit>
 					</BlogCommentInput>
+					<Player
+						open={openPlayerModal}
+						toggleModal={toggleModalStatus}
+						url={youTubeURL}
+					/>
 				</Fragment>
 			) : null}
 			{isBlogFetched ? (

@@ -27,3 +27,7 @@ textarea {
 textarea::placeholder {
 	color: lightslategray;
 }
+
+body .react-responsive-modal-root {
+	z-index: 10000;
+}

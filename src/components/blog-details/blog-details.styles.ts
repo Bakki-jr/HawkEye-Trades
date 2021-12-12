@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import YouTubeOverlayButton from "../../assets/images/generic/youtube-play-button.png";
 export const SpecificBlogContentWrapper = styled.div`
 	background-color: ${(props) =>
 		props.theme.palette.mode === "dark"
@@ -123,4 +123,43 @@ export const BlogCommentInput = styled.div`
 
 export const BlogComemntSubmit = styled.div`
 	width: 125px;
+`;
+
+export const VideosContainer = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 2.5rem;
+	flex-wrap: wrap;
+  margin-block-end: 1rem;
+`;
+
+export const YoutubeVideoWrapper = styled.div`
+	max-width: 480px;
+	aspect-ratio: 16/9;
+	position: relative;
+	width: 100%;
+	::before {
+		content: "";
+		position: absolute;
+		background-image: url(${YouTubeOverlayButton});
+		width: 20%;
+		height: 20%;
+		background-size: contain;
+		inset: 0;
+		margin: auto;
+		background-repeat: no-repeat;
+		cursor: pointer;
+		opacity: 0.9;
+		z-index: 1;
+	}
+`;
+
+export const ImageThumbnail = styled.img`
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
+	object-fit: cover;
+	display: block;
+	position: absolute;
 `;
