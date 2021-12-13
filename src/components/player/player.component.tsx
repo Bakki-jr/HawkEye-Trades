@@ -18,6 +18,7 @@ const Player = ({ open, toggleModal, url }: IPlayerProps) => {
 				modal: {
 					maxWidth: "70%",
 					width: "100%",
+					aspectRatio: "16/9",
 					padding: "unset",
 					marginInlineStart: "50px",
 					marginBlockStart: "70px",
@@ -37,7 +38,8 @@ const Player = ({ open, toggleModal, url }: IPlayerProps) => {
 				url={url}
 				controls
 				width="100%"
-				height="calc(100vh - 300px)"
+				height="unset"
+				style={{aspectRatio: "16/9"}}
 			/>
 		</Modal>
 	);

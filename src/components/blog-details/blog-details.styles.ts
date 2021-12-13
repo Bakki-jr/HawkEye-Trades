@@ -143,8 +143,8 @@ export const YoutubeVideoWrapper = styled.div`
 		content: "";
 		position: absolute;
 		background-image: url(${YouTubeOverlayButton});
-		width: 20%;
-		height: 20%;
+		width: 14%;
+		height: 17%;
 		background-size: contain;
 		inset: 0;
 		margin: auto;
