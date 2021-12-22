@@ -130,22 +130,20 @@ const BlogContent = ({ theme, blogId, blogPostedBy }: IBlogContent) => {
 		const id = getYoutubeID(url);
 		return `https://www.youtube.com/watch?v=${id}`;
 	};
+
 	const getYoutubeThumbnail = (url: any) => {
 		const id = getYoutubeID(url);
 		return `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
 	};
 
-	const id = getYoutubeID("https://www.youtube.com/watch?v=rvYunqvMXkU");
-	const thumb_url = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
-	const youtube_url = `https://www.youtube.com/watch?v=${id}`;
+	const [openPlayerModal, setOpenPlayerModal] = useState(false);
+	const [youTubeURL, setYouTubeURL] = useState("");
 
-	const [openPlayerModal, setopenPlayerModal] = useState(false);
-	const [youTubeURL, setyouTubeURL] = useState("");
-
-	const toggleModalStatus = () => setopenPlayerModal(!openPlayerModal);
+	const toggleModalStatus = () => setOpenPlayerModal(!openPlayerModal);
+	
 	const invokeReactPlayer = (youtubeURL: string) => {
-		setopenPlayerModal(!openPlayerModal);
-		setyouTubeURL(youtubeURL);
+		setOpenPlayerModal(!openPlayerModal);
+		setYouTubeURL(youtubeURL);
 	};
 
 	const handleCommentSubmit = async (comment: string) => {
@@ -160,8 +158,6 @@ const BlogContent = ({ theme, blogId, blogPostedBy }: IBlogContent) => {
 		setComment("");
 		dispatch(resetupdateBlogCommentsStatus());
 	};
-
-	console.log(fetchedBlog);
 
 	return (
 		<SpecificBlogContentWrapper theme={theme}>
@@ -184,7 +180,7 @@ const BlogContent = ({ theme, blogId, blogPostedBy }: IBlogContent) => {
 					<BlogEditorContent>{ReactHtmlParser(markup)}</BlogEditorContent>
 					<VideosContainer>
 						{fetchedBlog?.externalLinks &&
-						fetchedBlog.externalLinks[0].link !== 0
+						fetchedBlog.externalLinks[0].link
 							? fetchedBlog.externalLinks.map((item: any) => (
 									<YoutubeVideoWrapper
 										onClick={() => invokeReactPlayer(getYoutubeURL(item.link))}

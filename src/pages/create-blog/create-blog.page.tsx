@@ -37,7 +37,6 @@ import { useHistory } from "react-router";
 import { Routes } from "../../constants/route-paths";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import { AspectRatio } from "@mui/icons-material";
 
 interface IBlog {
 	title: string;
