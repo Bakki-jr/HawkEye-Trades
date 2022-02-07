@@ -12,7 +12,7 @@ export const BlogWrapper = styled.div`
 export const BlogListWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
-	min-width: 350px;
+	min-width: 380px;
 	max-width: 380px;
 	background: #dedede30;
 	padding-block-start: 20px;
