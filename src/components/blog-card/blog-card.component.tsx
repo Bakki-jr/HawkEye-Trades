@@ -35,7 +35,6 @@ const BlogCard = ({
   return (
     <Card theme={theme} onClick={(e) => handleClick(item)}>
       <BlogCardUserInfo>
-        {/* <UserAvatar user={{ name: item.name, photoURL: item.photoURL }} /> */}
         {Avatar}
         <BlogTitle>
           <BlogPostedBy>{item.name}</BlogPostedBy>

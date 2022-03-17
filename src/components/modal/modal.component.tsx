@@ -27,7 +27,7 @@ const Modal = ({ setOpenModal, modalProps: { title, info } }: IModalProps) => {
 			height={height}
 		>
 			<ModalContainer onClick={(e) => {e.stopPropagation()}} theme={theme}>
-				<Title>{title}</Title>
+				<Title data-testid="modal-title">{title}</Title>
 				<Content theme={theme}>{info}</Content>
 				<Footer>
 					<Button

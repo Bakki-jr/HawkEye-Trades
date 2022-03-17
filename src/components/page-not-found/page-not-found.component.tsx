@@ -19,10 +19,10 @@ const PageNotFound = () => {
 	const randomImage = images[Math.floor(Math.random() * images.length)];
 	return (
 		<PageNotFoundWrapper theme={theme}>
-			<ErrorImage image={randomImage}></ErrorImage>
+			<ErrorImage data-testid="error-image" image={randomImage}></ErrorImage>
 			<ErrorTitle>This Page is Not on the Map</ErrorTitle>
 			<ErrorContentWrapper>
-				<ErrorCode>404</ErrorCode>
+				<ErrorCode data-testid="error-code">404</ErrorCode>
 				<Info>Aha! You see! You can be wrong!</Info>
 				<Info color={"grey"}>(or it could be us)</Info>
 				<Info>...either way please click on below link to redirect</Info>
